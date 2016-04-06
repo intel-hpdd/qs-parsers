@@ -1,0 +1,11 @@
+[ignore]
+.*node_modules/babel-.*
+.*node_modules/babylon.*
+.*\(lib\|test\|builtin-modules\|binary-extensions\|faker\|spdx\).*\.json
+
+[include]
+
+[libs]
+
+[options]
+module.name_mapper='^intel-parsely/\(.*\)\.js$' -> '<PROJECT_ROOT>/node_modules/intel-parsely/dist/source/\1.js.flow'
