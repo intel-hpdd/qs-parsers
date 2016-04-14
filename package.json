@@ -55,6 +55,6 @@
   },
   "dependencies": {
     "intel-fp": "4.2.1",
-    "intel-parsely": "1.0.2"
+    "intel-parsely": "2.0.1"
   }
 }

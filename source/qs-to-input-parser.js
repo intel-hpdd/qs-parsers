@@ -23,7 +23,7 @@
 
 import {curry, always, flow, either} from 'intel-fp';
 import * as parsely from 'intel-parsely';
-import type {tokens} from 'intel-parsely/get-lexer.js';
+import type {lexerTokens} from 'intel-parsely';
 
 const eitherResult = curry(2, (fn:Function, x:{result:string}) => ({ ...x, result: either(fn, x.result) }));
 
@@ -44,12 +44,12 @@ const valueSep = flow(
 );
 
 export type result = {
-  tokens: tokens;
+  tokens: lexerTokens;
   consumed: number;
   result: string;
 };
 
-export type tokensToResult = (t:tokens) => result;
+export type tokensToResult = (t:lexerTokens) => result;
 
 export const join:tokensToResult = parsely.token('join', always(' and '));
 export const assign:tokensToResult = parseStr([value, equals, value]);

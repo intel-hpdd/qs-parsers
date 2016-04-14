@@ -1,5 +1,5 @@
-import {describe, it, expect} from './jasmine.js';
-import {join, assign, like, ends, inList} from '../source/input-to-qs-parser.js';
+import {describe, it, expect} from '../jasmine.js';
+import {join, assign, like, ends, inList} from '../../source/input-to-qs-parser.js';
 
 describe('input to qs parser', () => {
   it('should parse join to &', () => {
@@ -16,7 +16,8 @@ describe('input to qs parser', () => {
     )
     .toEqual(
       {
-        tokens: [  ],
+        tokens: [],
+        suggest: [],
         consumed: 1,
         result: '&'
       }
@@ -47,7 +48,8 @@ describe('input to qs parser', () => {
     )
     .toEqual(
       {
-        tokens: [  ],
+        tokens: [],
+        suggest: [],
         consumed: 3,
         result: 'a=b'
       }
@@ -79,6 +81,7 @@ describe('input to qs parser', () => {
     .toEqual(
       {
         tokens: [],
+        suggest: [],
         consumed: 3,
         result: 'a__contains=b'
       }
@@ -110,6 +113,7 @@ describe('input to qs parser', () => {
     .toEqual(
       {
         tokens: [],
+        suggest: [],
         consumed: 3,
         result: 'a__endswith=b'
       }
@@ -161,6 +165,7 @@ describe('input to qs parser', () => {
     .toEqual(
       {
         tokens: [],
+        suggest: [],
         consumed: 7,
         result: 'a__in=c,d'
       }
