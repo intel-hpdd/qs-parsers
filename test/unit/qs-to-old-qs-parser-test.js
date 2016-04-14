@@ -1,5 +1,5 @@
-import {describe, it, expect} from './jasmine.js';
-import {join, assign, like, ends, inListOutOld} from '../source/qs-to-old-qs-parser.js';
+import {describe, it, expect} from '../jasmine.js';
+import {join, assign, like, ends, inListOutOld} from '../../source/qs-to-old-qs-parser.js';
 
 describe('qs to old qs parser', () => {
   it('should parse join to itself', () => {
@@ -16,7 +16,8 @@ describe('qs to old qs parser', () => {
     )
     .toEqual(
       {
-        tokens: [  ],
+        tokens: [],
+        suggest: [],
         consumed: 1,
         result: '&'
       }
@@ -47,7 +48,8 @@ describe('qs to old qs parser', () => {
     )
     .toEqual(
       {
-        tokens: [  ],
+        tokens: [],
+        suggest: [],
         consumed: 3,
         result: 'a=b'
       }
@@ -84,6 +86,7 @@ describe('qs to old qs parser', () => {
     .toEqual(
       {
         tokens: [],
+        suggest: [],
         consumed: 4,
         result: 'a__contains=b'
       }
@@ -120,6 +123,7 @@ describe('qs to old qs parser', () => {
     .toEqual(
       {
         tokens: [],
+        suggest: [],
         consumed: 4,
         result: 'a__endswith=b'
       }
@@ -166,6 +170,7 @@ describe('qs to old qs parser', () => {
     .toEqual(
       {
         tokens: [],
+        suggest: [],
         consumed: 6,
         result: 'a__in=b&a__in=c'
       }

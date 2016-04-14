@@ -9,3 +9,4 @@
 
 [options]
 module.name_mapper='^intel-parsely/\(.*\)\.js$' -> '<PROJECT_ROOT>/node_modules/intel-parsely/dist/source/\1.js.flow'
+module.use_strict=true
