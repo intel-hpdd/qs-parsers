@@ -1,17 +1,58 @@
+//@flow
+
 import {describe, it, expect} from '../jasmine.js';
-import {flow, always} from 'intel-fp';
-import {join, assign, like, ends, inList} from '../../source/qs-to-input-parser.js';
+import {flow} from 'intel-fp';
 import {qsToInputTokens} from '../../source/tokens.js';
+import * as qsToInput from '../../source/qs-to-input-parser.js';
+import {parseToStr} from '../../source/common-parsers.js';
 import * as parsely from 'intel-parsely';
 
-const tokenizer = parsely.getLexer(qsToInputTokens);
-const parseStr = parsely.parse(always(''));
-const choices = parsely.choice([like, ends, inList, assign]);
-const expr = parsely.sepBy1(choices, join);
-const emptyOrExpr = parsely.optional(expr);
+export const assign = parseToStr([
+  qsToInput.value,
+  qsToInput.equals,
+  qsToInput.value
+]);
+export const like = parseToStr([
+  qsToInput.value,
+  qsToInput.contains,
+  qsToInput.equalsEmpty,
+  qsToInput.value
+]);
+export const ends = parseToStr([
+  qsToInput.value,
+  qsToInput.endsWith,
+  qsToInput.equalsEmpty,
+  qsToInput.value
+]);
+export const inList = parseToStr([
+  qsToInput.value,
+  qsToInput.inToken,
+  qsToInput.equalsEmpty,
+  qsToInput.valueSep
+]);
 
-const statusParser = parseStr([emptyOrExpr, parsely.endOfString]);
-const statusQsToInputParser = flow(tokenizer, statusParser, x => x.result);
+
+const choices = parsely.choice([
+  like,
+  ends,
+  inList,
+  assign
+]);
+const expr = parsely.sepBy1(
+  choices,
+  qsToInput.join
+);
+const emptyOrExpr = parsely.optional(expr);
+const statusParser = parseToStr([
+  emptyOrExpr,
+  parsely.endOfString
+]);
+const tokenizer = parsely.getLexer(qsToInputTokens);
+const statusQsToInputParser = flow(
+  tokenizer,
+  statusParser,
+  x => x.result
+);
 
 describe('qs to input parser test', () => {
   const inputOutput = {

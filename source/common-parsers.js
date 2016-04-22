@@ -21,36 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {always, flow,  __, either, curry} from 'intel-fp';
+import {always} from 'intel-fp';
 import * as parsely from 'intel-parsely';
 
-import type {tokensToResult} from 'intel-parsely';
-
-const eitherResult = curry(2, (fn:Function, x:{result: String}) => ({ ...x, result: either(fn, x.result) }));
-
-const contentToken = parsely.token(__, x => x.content);
-const parseStr = parsely.parse(always(''));
-const equals = contentToken('equals');
-const contains = contentToken('contains');
-const endsWith = contentToken('ends with');
-const value = contentToken('value');
-const inT = contentToken('in');
-const sep = contentToken('sep');
-
-const valueSep = parsely.sepBy1(value, sep);
-const inList = parseStr([value, inT, equals, valueSep]);
-
-export const like:tokensToResult = parseStr([value, contains, equals, value]);
-export const ends:tokensToResult = parseStr([value, endsWith, equals, value]);
-export const assign:tokensToResult = parseStr([value, equals, value]);
-export const inListOutOld:tokensToResult = flow(inList, eitherResult(output => {
-  const parts = output.split('=');
-  const ins = parts[1]
-    .replace(/\[(.+)]/, '$1')
-    .split(',');
-
-  return ins
-    .map(x => `${parts[0]}=${x}`)
-    .join('&');
-}));
-export const join:tokensToResult = contentToken('join');
+export const parseToStr = parsely.parse(always(''));
