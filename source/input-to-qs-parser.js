@@ -23,23 +23,48 @@
 
 import {view, lensProp, always} from 'intel-fp';
 import * as parsely from 'intel-parsely';
+import type {tokensToResult} from 'intel-parsely';
+import {parseToStr} from './common-parsers.js';
 
-import type {tokensToResult} from './qs-to-input-parser.js';
-
-const parseToStr = parsely.parse(always(''));
-const value = parsely.token('value', view(lensProp('content')));
-const equals = parsely.token('equals', always('='));
-const contains = parsely.token('contains', always('__contains='));
-const endsWith = parsely.token('ends with', always('__endswith='));
-const inToken = parsely.token('in', always('__in='));
-const startList = parsely.token('startList', always(''));
-const endList = parsely.token('endList', always(''));
-const sep = parsely.token('sep', always(','));
-const valueSep = parsely.sepBy1(value, sep);
-const list = parseToStr([startList, valueSep, endList]);
-
-export const assign:tokensToResult = parseToStr([value, equals, value]);
-export const like:tokensToResult = parseToStr([value, contains, value]);
-export const ends:tokensToResult = parseToStr([value, endsWith, value]);
-export const inList:tokensToResult = parseToStr([value, inToken, list]);
-export const join:tokensToResult = parsely.token('join', always('&'));
+export const value:tokensToResult = parsely.token(
+  'value',
+  view(lensProp('content'))
+);
+export const equals:tokensToResult = parsely.token(
+  'equals',
+  always('=')
+);
+export const contains:tokensToResult = parsely.token(
+  'contains',
+  always('__contains=')
+);
+export const endsWith:tokensToResult = parsely.token(
+  'ends with',
+  always('__endswith=')
+);
+export const inToken:tokensToResult = parsely.match(
+  'in',
+  always('__in=')
+);
+export const join:tokensToResult = parsely.token(
+  'join',
+  always('&')
+);
+export const startList:tokensToResult = parsely.token(
+  'startList',
+  always('')
+);
+export const endList:tokensToResult = parsely.token(
+  'endList',
+  always('')
+);
+export const sep:tokensToResult = parsely.token(
+  'sep',
+  always(',')
+);
+export const valueSep:tokensToResult = parsely.sepBy1(value, sep);
+export const list:tokensToResult = parseToStr([
+  startList,
+  valueSep,
+  endList
+]);

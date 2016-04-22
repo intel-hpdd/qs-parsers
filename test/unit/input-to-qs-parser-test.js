@@ -1,10 +1,10 @@
 import {describe, it, expect} from '../jasmine.js';
-import {join, assign, like, ends, inList} from '../../source/input-to-qs-parser.js';
+import * as inputToQs from '../../source/input-to-qs-parser.js';
 
 describe('input to qs parser', () => {
   it('should parse join to &', () => {
     expect(
-      join(
+      inputToQs.join(
         [
           {
             content: 'and',
@@ -24,24 +24,36 @@ describe('input to qs parser', () => {
     );
   });
 
-  it('should parse assign to qs output', () => {
+  it('should parse value to itself', () => {
     expect(
-      assign(
+      inputToQs.value(
         [
           {
-            content: 'a',
+            content: 'foo',
             name: 'value',
-            character: 1
-          },
+            character: 10
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 1,
+        result: 'foo'
+      }
+    );
+  });
+
+  it('should parse equals to itself', () => {
+    expect(
+      inputToQs.equals(
+        [
           {
             content: '=',
             name: 'equals',
-            character: 2
-          },
-          {
-            content: 'b',
-            name: 'value',
-            character: 3
+            character: 10
           }
         ]
       )
@@ -50,30 +62,20 @@ describe('input to qs parser', () => {
       {
         tokens: [],
         suggest: [],
-        consumed: 3,
-        result: 'a=b'
+        consumed: 1,
+        result: '='
       }
     );
   });
 
-  it('should parse contains to qs output', () => {
+  it('should parse contains to __contains', () => {
     expect(
-      like(
+      inputToQs.contains(
         [
-          {
-            content: 'a',
-            name: 'value',
-            character: 1
-          },
           {
             content: 'contains',
             name: 'contains',
-            character: 2
-          },
-          {
-            content: 'b',
-            name: 'value',
-            character: 12
+            character: 10
           }
         ]
       )
@@ -82,30 +84,20 @@ describe('input to qs parser', () => {
       {
         tokens: [],
         suggest: [],
-        consumed: 3,
-        result: 'a__contains=b'
+        consumed: 1,
+        result: '__contains='
       }
     );
   });
 
-  it('should parse ends to qs output', () => {
+  it('should parse endsWith to __endswith', () => {
     expect(
-      ends(
+      inputToQs.endsWith(
         [
-          {
-            content: 'a',
-            name: 'value',
-            character: 1
-          },
           {
             content: 'ends with',
             name: 'ends with',
-            character: 2
-          },
-          {
-            content: 'b',
-            name: 'value',
-            character: 12
+            character: 10
           }
         ]
       )
@@ -114,46 +106,60 @@ describe('input to qs parser', () => {
       {
         tokens: [],
         suggest: [],
-        consumed: 3,
-        result: 'a__endswith=b'
+        consumed: 1,
+        result: '__endswith='
       }
     );
   });
 
-  it('should parse inList to qs output', () => {
+  it('should parse in to __in', () => {
     expect(
-      inList(
+      inputToQs.inToken(
         [
           {
-            content: 'a',
-            name: 'value',
-            character: 1
-          },
-          {
             content: 'in',
-            name: 'in',
-            character: 2
-          },
+            name: 'value',
+            character: 10
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 1,
+        result: '__in='
+      }
+    );
+  });
+
+  it('should parse startList to nothing', () => {
+    expect(
+      inputToQs.startList(
+        [
           {
             content: '[',
             name: 'startList',
-            character: 4
-          },
-          {
-            content: 'c',
-            name: 'value',
-            character: 9
-          },
-          {
-            content: ',',
-            name: 'sep',
-            character: 8
-          },
-          {
-            content: 'd',
-            name: 'value',
-            character: 9
-          },
+            character: 10
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 1,
+        result: ''
+      }
+    );
+  });
+
+  it('should parse endList to nothing', () => {
+    expect(
+      inputToQs.endList(
+        [
           {
             content: ']',
             name: 'endList',
@@ -166,8 +172,104 @@ describe('input to qs parser', () => {
       {
         tokens: [],
         suggest: [],
-        consumed: 7,
-        result: 'a__in=c,d'
+        consumed: 1,
+        result: ''
+      }
+    );
+  });
+
+  it('should parse sep to ,', () => {
+    expect(
+      inputToQs.sep(
+        [
+          {
+            content: ',',
+            name: 'sep',
+            character: 10
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 1,
+        result: ','
+      }
+    );
+  });
+
+  it('should parse valueSep', () => {
+    expect(
+      inputToQs.valueSep(
+        [
+          {
+            content: 'foo',
+            name: 'value',
+            character: 7
+          },
+          {
+            content: ',',
+            name: 'sep',
+            character: 10
+          },
+          {
+            content: 'bar',
+            name: 'value',
+            character: 11
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 3,
+        result: 'foo,bar'
+      }
+    );
+  });
+
+  it('should parse a list', () => {
+    expect(
+      inputToQs.list(
+        [
+          {
+            content: '[',
+            name: 'startList',
+            character: 6
+          },
+          {
+            content: 'foo',
+            name: 'value',
+            character: 7
+          },
+          {
+            content: ',',
+            name: 'sep',
+            character: 10
+          },
+          {
+            content: 'bar',
+            name: 'value',
+            character: 11
+          },
+          {
+            content: ']',
+            name: 'endList',
+            character: 12
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 5,
+        result: 'foo,bar'
       }
     );
   });

@@ -1,10 +1,10 @@
 import {describe, it, expect} from '../jasmine.js';
-import {join, assign, like, ends, inList} from '../../source/qs-to-input-parser.js';
+import * as qsToInput from '../../source/qs-to-input-parser.js';
 
 describe('qs to input parser', () => {
   it('should parse join to and', () => {
     expect(
-      join(
+      qsToInput.join(
         [
           {
             content: '&',
@@ -24,24 +24,178 @@ describe('qs to input parser', () => {
     );
   });
 
-  it('should parse assign to human output', () => {
+  it('should parse equals to itself', () => {
     expect(
-      assign(
+      qsToInput.equals(
         [
-          {
-            content: 'a',
-            name: 'value',
-            character: 1
-          },
           {
             content: '=',
             name: 'equals',
-            character: 2
+            character: 10
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 1,
+        result: ' = '
+      }
+    );
+  });
+
+  it('should parse equalsEmpty to nothing', () => {
+    expect(
+      qsToInput.equalsEmpty(
+        [
+          {
+            content: '=',
+            name: 'equals',
+            character: 10
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 1,
+        result: ''
+      }
+    );
+  });
+
+  it('should parse contains to itself', () => {
+    expect(
+      qsToInput.contains(
+        [
+          {
+            content: '__contains',
+            name: 'contains',
+            character: 10
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 1,
+        result: ' contains '
+      }
+    );
+  });
+
+  it('should parse endsWith to itself', () => {
+    expect(
+      qsToInput.endsWith(
+        [
+          {
+            content: '__endswith',
+            name: 'ends with',
+            character: 10
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 1,
+        result: ' ends with '
+      }
+    );
+  });
+
+  it('should parse value to itself', () => {
+    expect(
+      qsToInput.value(
+        [
+          {
+            content: 'foo',
+            name: 'value',
+            character: 10
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 1,
+        result: 'foo'
+      }
+    );
+  });
+
+  it('should parse in to itself', () => {
+    expect(
+      qsToInput.inToken(
+        [
+          {
+            content: '__in',
+            name: 'in',
+            character: 10
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 1,
+        result: ' in '
+      }
+    );
+  });
+
+  it('should parse sep to itself', () => {
+    expect(
+      qsToInput.sep(
+        [
+          {
+            content: ',',
+            name: 'sep',
+            character: 10
+          }
+        ]
+      )
+    )
+    .toEqual(
+      {
+        tokens: [],
+        suggest: [],
+        consumed: 1,
+        result: ', '
+      }
+    );
+  });
+
+  it('should parse valueSep', () => {
+    expect(
+      qsToInput.valueSep(
+        [
+          {
+            content: 'foo',
+            name: 'value',
+            character: 7
           },
           {
-            content: 'b',
+            content: ',',
+            name: 'sep',
+            character: 10
+          },
+          {
+            content: 'bar',
             name: 'value',
-            character: 3
+            character: 11
           }
         ]
       )
@@ -51,128 +205,7 @@ describe('qs to input parser', () => {
         tokens: [],
         suggest: [],
         consumed: 3,
-        result: 'a = b'
-      }
-    );
-  });
-
-  it('should parse contains to human output', () => {
-    expect(
-      like(
-        [
-          {
-            content: 'a',
-            name: 'value',
-            character: 1
-          },
-          {
-            content: '__contains',
-            name: 'contains',
-            character: 2
-          },
-          {
-            content: '=',
-            name: 'equals',
-            character: 11
-          },
-          {
-            content: 'b',
-            name: 'value',
-            character: 12
-          }
-        ]
-      )
-    )
-    .toEqual(
-      {
-        tokens: [],
-        suggest: [],
-        consumed: 4,
-        result: 'a contains b'
-      }
-    );
-  });
-
-  it('should parse ends to human output', () => {
-    expect(
-      ends(
-        [
-          {
-            content: 'a',
-            name: 'value',
-            character: 1
-          },
-          {
-            content: '__endswith',
-            name: 'ends with',
-            character: 2
-          },
-          {
-            content: '=',
-            name: 'equals',
-            character: 11
-          },
-          {
-            content: 'b',
-            name: 'value',
-            character: 12
-          }
-        ]
-      )
-    )
-    .toEqual(
-      {
-        tokens: [],
-        suggest: [],
-        consumed: 4,
-        result: 'a ends with b'
-      }
-    );
-  });
-
-  it('should parse inList to human output', () => {
-    expect(
-      inList(
-        [
-          {
-            content: 'a',
-            name: 'value',
-            character: 1
-          },
-          {
-            content: '__in',
-            name: 'in',
-            character: 2
-          },
-          {
-            content: '=',
-            name: 'equals',
-            character: 6
-          },
-          {
-            content: 'b',
-            name: 'value',
-            character: 7
-          },
-          {
-            content: ',',
-            name: 'sep',
-            character: 8
-          },
-          {
-            content: 'c',
-            name: 'value',
-            character: 9
-          }
-        ]
-      )
-    )
-    .toEqual(
-      {
-        tokens: [],
-        suggest: [],
-        consumed: 6,
-        result: 'a in [b, c]'
+        result: '[foo, bar]'
       }
     );
   });

@@ -23,36 +23,43 @@
 
 import {curry, always, flow, either} from 'intel-fp';
 import * as parsely from 'intel-parsely';
-import type {lexerTokens} from 'intel-parsely';
+import type {tokensToResult} from 'intel-parsely';
 
-const eitherResult = curry(2, (fn:Function, x:{result:string}) => ({ ...x, result: either(fn, x.result) }));
+const eitherResult = curry(2, (fn:Function, x:{result:string}) => ({
+  ...x,
+  result: either(fn, x.result)
+}));
 
 const surround = curry(3, (open:string, close:string, str:string)  =>  open + str + close);
+const equalsToken:(fn:Function) => tokensToResult = parsely.token('equals');
 
-const parseStr = parsely.parse(always(''));
-const equalsToken = parsely.token('equals');
-const equals = equalsToken(always(' = '));
-const contains = parsely.token('contains', always( ' contains ' ));
-const endsWith = parsely.token('ends with', always( ' ends with ' ));
-const value = parsely.token('value', x => x.content);
-const inT = parsely.token('in', always(' in '));
-const sep = parsely.token('sep', always(', '));
-
-const valueSep = flow(
+export const equals:tokensToResult = equalsToken(always(' = '));
+export const equalsEmpty:tokensToResult = equalsToken(always(''));
+export const contains:tokensToResult = parsely.token(
+  'contains',
+  always( ' contains ' )
+);
+export const endsWith:tokensToResult = parsely.token(
+  'ends with',
+  always( ' ends with ' )
+);
+export const value:tokensToResult = parsely.token(
+  'value',
+  x => x.content
+);
+export const inToken:tokensToResult = parsely.token(
+  'in',
+  always(' in ')
+);
+export const sep:tokensToResult = parsely.token(
+  'sep',
+  always(', ')
+);
+export const valueSep:tokensToResult = flow(
   parsely.sepBy1(value, sep),
   eitherResult(surround('[', ']'))
 );
-
-export type result = {
-  tokens: lexerTokens;
-  consumed: number;
-  result: string;
-};
-
-export type tokensToResult = (t:lexerTokens) => result;
-
-export const join:tokensToResult = parsely.token('join', always(' and '));
-export const assign:tokensToResult = parseStr([value, equals, value]);
-export const like:tokensToResult = parseStr([value, contains, equalsToken(always('')), value]);
-export const ends:tokensToResult = parseStr([value, endsWith, equalsToken(always('')), value]);
-export const inList:tokensToResult = parseStr([value, inT, equalsToken(always('')), valueSep]);
+export const join:tokensToResult = parsely.token(
+  'join',
+  always(' and ')
+);

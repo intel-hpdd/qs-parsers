@@ -40,10 +40,6 @@ export const inputToQsTokens = [
     pattern: /^and/
   },
   {
-    name: 'in',
-    pattern: /^in/
-  },
-  {
     name: 'contains',
     pattern: /^contains/
   },
