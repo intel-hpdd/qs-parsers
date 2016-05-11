@@ -4,33 +4,12 @@ import {describe, it, expect} from '../jasmine.js';
 import {flow} from 'intel-fp';
 import {qsToInputTokens} from '../../source/tokens.js';
 import * as qsToInput from '../../source/qs-to-input-parser.js';
-import {parseToStr} from '../../source/common-parsers.js';
 import * as parsely from 'intel-parsely';
 
-export const assign = parseToStr([
-  qsToInput.value,
-  qsToInput.equals,
-  qsToInput.value
-]);
-export const like = parseToStr([
-  qsToInput.value,
-  qsToInput.contains,
-  qsToInput.equalsEmpty,
-  qsToInput.value
-]);
-export const ends = parseToStr([
-  qsToInput.value,
-  qsToInput.endsWith,
-  qsToInput.equalsEmpty,
-  qsToInput.value
-]);
-export const inList = parseToStr([
-  qsToInput.value,
-  qsToInput.inToken,
-  qsToInput.equalsEmpty,
-  qsToInput.valueSep
-]);
-
+export const assign = qsToInput.assign(qsToInput.value, qsToInput.value);
+export const like = qsToInput.like(qsToInput.value, qsToInput.value);
+export const ends = qsToInput.ends(qsToInput.value, qsToInput.value);
+export const inList = qsToInput.inList(qsToInput.value, qsToInput.value);
 
 const choices = parsely.choice([
   like,
@@ -40,10 +19,10 @@ const choices = parsely.choice([
 ]);
 const expr = parsely.sepBy1(
   choices,
-  qsToInput.join
+  qsToInput.and
 );
 const emptyOrExpr = parsely.optional(expr);
-const statusParser = parseToStr([
+const statusParser = parsely.parseStr([
   emptyOrExpr,
   parsely.endOfString
 ]);
@@ -57,27 +36,26 @@ const statusQsToInputParser = flow(
 describe('qs to input parser test', () => {
   const inputOutput = {
     '': '',
-    'a': new Error('Expected one of contains, ends with, in, equals'),
-    'a= ': new Error('Expected value got end of string'),
-    'a b': new Error('Expected one of contains, ends with, in, equals'),
-    'a__in =': new Error('Expected value got end of string'),
-    'a__in = =': new Error('Expected value got equals at character 8'),
-    '__in': new Error('Expected value got in at character 0'),
-    '=': new Error('Expected value got equals at character 0'),
-    '&': new Error('Expected value got join at character 0'),
-    'a &': new Error('Expected one of contains, ends with, in, equals'),
-    'a = b &&': new Error('Expected value got join at character 7'),
-    'a__in=b&&': new Error('Expected value got join at character 8'),
-    'a=1&b__contains=foo': 'a = 1 and b contains foo',
-    'a=1&b=2': 'a = 1 and b = 2',
+    'a': new Error('Expected one of __contains, __endswith, __in, = got end of string'),
+    'a=': new Error('Expected value got end of string'),
+    'a__in=': new Error('Expected value got end of string'),
+    'a__in==': new Error('Expected value got = at character 6'),
+    '__in': new Error('Expected value got __in at character 0'),
+    '=': new Error('Expected value got = at character 0'),
+    '&': new Error('Expected value got & at character 0'),
+    'a&': new Error('Expected one of __contains, __endswith, __in, = got & at character 1'),
+    'a=b&&': new Error('Expected value got & at character 4'),
+    'a__in=b&&': new Error('Expected value got & at character 8'),
+    'a=bar&b__contains=foo': 'a = bar and b contains foo',
+    'a=foo&b=bar': 'a = foo and b = bar',
     'a=b': 'a = b',
-    'a__in=1,2,3': 'a in [1, 2, 3]',
-    'a=b&c=d&x__in=1': 'a = b and c = d and x in [1]',
-    'a__in=2&b__in=3,4,5': 'a in [2] and b in [3, 4, 5]',
-    'b__in=1&a__in=2&b__in=3,4,5': 'b in [1] and a in [2] and b in [3, 4, 5]',
-    'b__in=1&c=1': 'b in [1] and c = 1',
-    'b__in=1&c=1&a__in=2&b__in=3,4,5&e=4&x__endswith=9':
-      'b in [1] and c = 1 and a in [2] and b in [3, 4, 5] and e = 4 and x ends with 9'
+    'a__in=foo,bar,baz': 'a in [foo, bar, baz]',
+    'a=b&c=d&x__in=bar': 'a = b and c = d and x in [bar]',
+    'a__in=b&b__in=c,d,e': 'a in [b] and b in [c, d, e]',
+    'b__in=c&a__in=d&b__in=f,g,h': 'b in [c] and a in [d] and b in [f, g, h]',
+    'b__in=c&c=d': 'b in [c] and c = d',
+    'b__in=d&c=e&a__in=g&b__in=f,g,h&e=t&x__endswith=bar':
+      'b in [d] and c = e and a in [g] and b in [f, g, h] and e = t and x ends with bar'
   };
 
   Object.keys(inputOutput).forEach(input => {

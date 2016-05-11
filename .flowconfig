@@ -1,6 +1,6 @@
 [ignore]
-.*node_modules/babel-.*
-.*node_modules/babylon.*
+.*qs-parsers/dist.*
+.*intel-fp/dist/test/fp-test.js
 .*\(lib\|test\|builtin-modules\|binary-extensions\|faker\|spdx\).*\.json
 
 [include]
