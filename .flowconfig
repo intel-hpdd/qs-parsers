@@ -1,6 +1,5 @@
 [ignore]
 .*qs-parsers/dist.*
-.*intel-fp/dist/test/fp-test.js
 .*\(lib\|test\|builtin-modules\|binary-extensions\|faker\|spdx\).*\.json
 
 [include]
