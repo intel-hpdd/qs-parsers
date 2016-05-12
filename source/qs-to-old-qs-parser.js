@@ -21,36 +21,117 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {always, flow,  __, either, curry} from 'intel-fp';
+import {always, flow} from 'intel-fp';
 import * as parsely from 'intel-parsely';
-
+import {date} from './qs-to-input-parser.js';
 import type {tokensToResult} from 'intel-parsely';
 
-const eitherResult = curry(2, (fn:Function, x:{result: String}) => ({ ...x, result: either(fn, x.result) }));
+const token = parsely.token(always(true));
 
-const contentToken = parsely.token(__, x => x.content);
-const parseStr = parsely.parse(always(''));
-const equals = contentToken('equals');
-const contains = contentToken('contains');
-const endsWith = contentToken('ends with');
-const value = contentToken('value');
-const inT = contentToken('in');
-const sep = contentToken('sep');
+const equals:tokensToResult = token('=');
+const contains:tokensToResult = token('__contains');
+const endsWith:tokensToResult = token('__endswith');
+const value:tokensToResult = token('value');
+const inT:tokensToResult = token('__in');
+const sep:tokensToResult = token(',');
+const number:tokensToResult = token('number');
+export const orderBy:tokensToResult = parsely.parseStr([
+  token('order_by'),
+  equals
+]);
 
-const valueSep = parsely.sepBy1(value, sep);
-const inList = parseStr([value, inT, equals, valueSep]);
+export const gte:tokensToResult = parsely.parseStr([
+  token('__gte'),
+  equals
+]);
+export const lte:tokensToResult = parsely.parseStr([
+  token('__lte'),
+  equals
+]);
+export const lt:tokensToResult = parsely.parseStr([
+  token('__lt'),
+  equals
+]);
+export const gt:tokensToResult = parsely.parseStr([
+  token('__gt'),
+  equals
+]);
 
-export const like:tokensToResult = parseStr([value, contains, equals, value]);
-export const ends:tokensToResult = parseStr([value, endsWith, equals, value]);
-export const assign:tokensToResult = parseStr([value, equals, value]);
-export const inListOutOld:tokensToResult = flow(inList, eitherResult(output => {
-  const parts = output.split('=');
-  const ins = parts[1]
-    .replace(/\[(.+)]/, '$1')
-    .split(',');
+const valueOrNumber = parsely.choice([value, number]);
 
-  return ins
-    .map(x => `${parts[0]}=${x}`)
-    .join('&');
-}));
-export const join:tokensToResult = contentToken('join');
+const valueSep:tokensToResult = parsely.sepBy1(valueOrNumber, sep);
+const inList:tokensToResult = parsely.parseStr([
+  value,
+  inT,
+  equals,
+  valueSep
+]);
+
+
+export const orderByParser = parsely.parseStr([
+  orderBy,
+  parsely.choice([
+    parsely.parseStr([
+      token('-'),
+      value
+    ]),
+    value
+  ])
+]);
+
+export const dateParser = parsely.parseStr([
+  value,
+  parsely.choice([
+    gte,
+    lte,
+    gt,
+    lt,
+    equals
+  ]),
+  date
+]);
+
+export const and:tokensToResult = token('&');
+export const like:tokensToResult = parsely.parseStr([
+  value,
+  contains,
+  equals,
+  value
+]);
+export const ends:tokensToResult = parsely.parseStr([
+  value,
+  endsWith,
+  equals,
+  value
+]);
+export const assign:tokensToResult = parsely.parseStr([
+  value,
+  equals,
+  valueOrNumber
+]);
+export const inListOutOld:tokensToResult = flow(
+  inList,
+  parsely.onSuccess(output => {
+    const parts = output.split('=');
+    const ins = parts[1]
+      .replace(/\[(.+)]/, '$1')
+      .split(',');
+
+    return ins
+      .map(x => `${parts[0]}=${x}`)
+      .join('&');
+  }
+));
+
+const choices = parsely.choice([
+  like,
+  ends,
+  inListOutOld,
+  dateParser,
+  assign,
+  orderByParser
+]);
+const expr = parsely.sepBy1(choices, and);
+const emptyOrExpr = parsely.optional(expr);
+
+export const parser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);

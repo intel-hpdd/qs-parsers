@@ -5,36 +5,67 @@ describe('tokens', () => {
   it('should have tokens for qs to input', () => {
     expect(qsToInputTokens).toEqual([
       {
-        name: 'whiteSpace',
-        pattern: /^[ \t\n]+/,
-        ignore: true
+        name: ' ',
+        pattern: /^%20/
       },
       {
-        name: 'join',
+        name: '&',
         pattern: /^&/
       },
       {
-        name: 'in',
+        name: '__in',
         pattern: /^__in/
       },
       {
-        name: 'sep',
+        name: ',',
         pattern: /^,/
       },
       {
-        name: 'contains',
+        name: '__contains',
         pattern: /^__contains/
       },
       {
-        name: 'ends with',
+        name: '__endswith',
         pattern: /^__endswith/
+      },
+      {
+        name: 'order_by',
+        pattern: /^order_by/
+      },
+      {
+        name: '__gte',
+        pattern: /^__gte/
+      },
+      {
+        name: '__gt',
+        pattern: /^__gt/
+      },
+      {
+        name: '__lte',
+        pattern: /^__lte/
+      },
+      {
+        name: '__lt',
+        pattern: /^__lt/
+      },
+      {
+        name: 'number',
+        pattern: /^\d+/
+      },
+      {
+        name: '-',
+        pattern: /^\-/
+      },
+      {
+        name: ':',
+        pattern: /^:/
       },
       {
         name: 'value',
         pattern: /^[a-zA-Z\d]+(_[a-zA-Z\d]+)?/
       },
       {
-        name: 'equals',
+        name: '=',
         pattern: /^=/
       }
     ]);
@@ -48,7 +79,7 @@ describe('tokens', () => {
         ignore: true
       },
       {
-        name: 'join',
+        name: 'and',
         pattern: /^and/
       },
       {
@@ -60,23 +91,55 @@ describe('tokens', () => {
         pattern: /^ends with/
       },
       {
+        name: 'order by',
+        pattern: /^order by/
+      },
+      {
+        name: '>',
+        pattern: /^>/
+      },
+      {
+        name: '>=',
+        pattern: /^>=/
+      },
+      {
+        name: '<',
+        pattern: /^</
+      },
+      {
+        name: '<=',
+        pattern: /^<=/
+      },
+      {
+        name: 'number',
+        pattern: /^\d+/
+      },
+      {
+        name: '-',
+        pattern: /^\-/
+      },
+      {
+        name: ':',
+        pattern: /^:/
+      },
+      {
         name: 'value',
         pattern: /^[a-zA-Z_\d]+/
       },
       {
-        name: 'equals',
+        name: '=',
         pattern: /^=/
       },
       {
-        name: 'startList',
+        name: '[',
         pattern: /^\[/
       },
       {
-        name: 'endList',
+        name: ']',
         pattern: /^]/
       },
       {
-        name: 'sep',
+        name: ',',
         pattern: /^,/
       }
     ]);
