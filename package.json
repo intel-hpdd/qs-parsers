@@ -1,6 +1,6 @@
 {
   "name": "intel-qs-parsers",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "description": "A set of parsers useful for parsing input <-> qs",
   "main": "dist/source/index.js",
   "scripts": {
