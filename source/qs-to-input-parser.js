@@ -21,8 +21,6 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-
-
 import {curry, flow} from 'intel-fp';
 import * as parsely from 'intel-parsely';
 import type {tokensToResult} from 'intel-parsely';
