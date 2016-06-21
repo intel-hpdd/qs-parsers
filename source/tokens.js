@@ -90,7 +90,7 @@ export const qsToInputTokens = [
   },
   {
     name: 'value',
-    pattern: /^[a-zA-Z\.\d]+(_[a-zA-Z\.\d]+)?/
+    pattern: /^[a-zA-Z\d]+(_[a-zA-Z\d]+)?/
   },
   {
     name: '=',
@@ -154,7 +154,7 @@ export const inputToQsTokens = [
   },
   {
     name: 'value',
-    pattern: /^[a-zA-Z\._\d]+/
+    pattern: /^[a-zA-Z_\d]+/
   },
   {
     name: '=',

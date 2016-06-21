@@ -70,7 +70,7 @@ describe('tokens', () => {
       },
       {
         name: 'value',
-        pattern: /^[a-zA-Z\.\d]+(_[a-zA-Z\.\d]+)?/
+        pattern: /^[a-zA-Z\d]+(_[a-zA-Z\d]+)?/
       },
       {
         name: '=',
@@ -140,7 +140,7 @@ describe('tokens', () => {
       },
       {
         name: 'value',
-        pattern: /^[a-zA-Z\._\d]+/
+        pattern: /^[a-zA-Z_\d]+/
       },
       {
         name: '=',
