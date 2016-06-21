@@ -57,6 +57,10 @@ describe('tokens', () => {
         pattern: /^\d+/
       },
       {
+        name: '.',
+        pattern: /^\./
+      },
+      {
         name: '-',
         pattern: /^\-/
       },
@@ -121,6 +125,10 @@ describe('tokens', () => {
       {
         name: 'number',
         pattern: /^\d+/
+      },
+      {
+        name: '.',
+        pattern: /^\./
       },
       {
         name: '-',

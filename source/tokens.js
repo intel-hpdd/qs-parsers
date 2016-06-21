@@ -77,6 +77,10 @@ export const qsToInputTokens = [
     pattern: /^\d+/
   },
   {
+    name: '.',
+    pattern: /^\./
+  },
+  {
     name: '-',
     pattern: /^\-/
   },
@@ -135,6 +139,10 @@ export const inputToQsTokens = [
   {
     name: 'number',
     pattern: /^\d+/
+  },
+  {
+    name: '.',
+    pattern: /^\./
   },
   {
     name: '-',
