@@ -51,6 +51,8 @@ export const endList = parsely.tokenTo(']', '');
 
 export const sep = parsely.tokenTo(',', ',');
 
+export const dot = parsely.tokenTo('.', '.');
+
 export const gt = parsely.tokenTo('>', '__gt=');
 
 export const gte:tokensToResult = flow(

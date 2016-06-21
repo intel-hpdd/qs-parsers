@@ -15,11 +15,23 @@ const ends = inputParser.ends(inputParser.value, inputParser.value);
 const inList = inputParser.inList(inputParser.value, inputParser.value);
 const dateParser = inputParser.dateParser(inputParser.value);
 
+const hostnames = parsely.many1(
+  parsely.choice([
+    inputParser.dot,
+    inputParser.dash,
+    inputParser.value,
+    inputParser.number
+  ])
+);
+
+const assignHostname = inputParser.assign(parsely.matchValue('hostname'), hostnames);
+
 const choices = parsely.choice([
   inList,
   like,
   starts,
   ends,
+  assignHostname,
   assign,
   dateParser
 ]);
@@ -62,7 +74,8 @@ describe('the input to qs parser', () => {
     'a >= 2016-12-31 24:20:23': new Error('Expected two digit hour between 1 and 23 got 24 at character 16'),
     'a = 2016-12-31 23:60:23': new Error('Expected two digit minute between 00 and 59 got 60 at character 18'),
     'a <= 2016-12-31 23:59:60': new Error('Expected two digit second between 00 and 59 got 60 at character 22'),
-    'a <= 2016-12-31 23:59:59': 'a__lte=2016-12-31 23:59:59'
+    'a <= 2016-12-31 23:59:59': 'a__lte=2016-12-31 23:59:59',
+    'hostname = lotus-35vm13.lotus.hpdd.lab.intel.com': 'hostname=lotus-35vm13.lotus.hpdd.lab.intel.com'
   };
 
   Object.keys(inputOutput)
