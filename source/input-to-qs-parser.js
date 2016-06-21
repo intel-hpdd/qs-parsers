@@ -39,6 +39,8 @@ export const equals = parsely.tokenTo('=', '=');
 
 export const contains = parsely.tokenTo('contains', '__contains=');
 
+export const startsWith = parsely.tokenTo('starts with', '__startswith=');
+
 export const endsWith = parsely.tokenTo('ends with', '__endswith=');
 
 export const and = parsely.tokenTo('and', '&');
@@ -179,6 +181,12 @@ export const assign = (l:tokensToResult, r:tokensToResult):tokensToResult => par
 export const like = (l:tokensToResult, r:tokensToResult) => parsely.parseStr([
   l,
   contains,
+  r
+]);
+
+export const starts = (l:tokensToResult, r:tokensToResult) => parsely.parseStr([
+  l,
+  startsWith,
   r
 ]);
 

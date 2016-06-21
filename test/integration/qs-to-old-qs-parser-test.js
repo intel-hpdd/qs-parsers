@@ -13,6 +13,7 @@ describe('qs to old qs parser', () => {
     'a=1&b__contains=foo': 'a=1&b__contains=foo',
     'a=1&b=2': 'a=1&b=2',
     'a=b': 'a=b',
+    'a__startswith=foobar': 'a__startswith=foobar',
     'a__in=1,2,3': 'a__in=1&a__in=2&a__in=3',
     'a=b&c=d&x__in=1': 'a=b&c=d&x__in=1',
     'a__contains=bar': 'a__contains=bar',

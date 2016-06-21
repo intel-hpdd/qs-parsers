@@ -10,6 +10,7 @@ const tokenizer = parsely.getLexer(inputToQsTokens);
 
 const assign = inputParser.assign(inputParser.value, inputParser.value);
 const like = inputParser.like(inputParser.value, inputParser.value);
+const starts = inputParser.starts(inputParser.value, inputParser.value);
 const ends = inputParser.ends(inputParser.value, inputParser.value);
 const inList = inputParser.inList(inputParser.value, inputParser.value);
 const dateParser = inputParser.dateParser(inputParser.value);
@@ -17,6 +18,7 @@ const dateParser = inputParser.dateParser(inputParser.value);
 const choices = parsely.choice([
   inList,
   like,
+  starts,
   ends,
   assign,
   dateParser
@@ -42,13 +44,16 @@ const statusInputToQsParser = flow(
 describe('the input to qs parser', () => {
   const inputOutput = {
     '': '',
-    'a': new Error('Expected one of in, contains, ends with, =, >=, <=, >, < got end of string'),
+    'a': new Error('Expected one of in, contains, starts with, ends with, =, >=, <=, >, < got end of string'),
     'a = ': new Error('Expected one of value, four digit year got end of string'),
-    'a b': new Error('Expected one of in, contains, ends with, =, >=, <=, >, < got b at character 2'),
+    'a b': new Error('Expected one of in, contains, starts with, ends with, =, >=, <=, >, < got b at character 2'),
     'a = [1,2,3]': new Error('Expected one of value, four digit year got [ at character 4'),
     'a in 3': new Error('Expected [ got 3 at character 5'),
     'a=b': 'a=b',
     'a in [foo,bar,baz]': 'a__in=foo,bar,baz',
+    'a starts with foobar': 'a__startswith=foobar',
+    'a ends with foobar': 'a__endswith=foobar',
+    'a contains foobar': 'a__contains=foobar',
     'a = info': 'a=info',
     'a = b and c = d and x in [foo]': 'a=b&c=d&x__in=foo',
     'a > 201-10-10 10:20:23': new Error('Expected four digit year got 201 at character 4'),

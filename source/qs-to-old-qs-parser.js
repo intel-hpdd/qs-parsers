@@ -30,6 +30,7 @@ const token = parsely.token(always(true));
 
 const equals:tokensToResult = token('=');
 const contains:tokensToResult = token('__contains');
+const startsWith:tokensToResult = token('__startswith');
 const endsWith:tokensToResult = token('__endswith');
 const value:tokensToResult = token('value');
 const inT:tokensToResult = token('__in');
@@ -98,6 +99,12 @@ export const like:tokensToResult = parsely.parseStr([
   equals,
   value
 ]);
+export const starts:tokensToResult = parsely.parseStr([
+  value,
+  startsWith,
+  equals,
+  value
+]);
 export const ends:tokensToResult = parsely.parseStr([
   value,
   endsWith,
@@ -125,6 +132,7 @@ export const inListOutOld:tokensToResult = flow(
 
 const choices = parsely.choice([
   like,
+  starts,
   ends,
   inListOutOld,
   dateParser,
