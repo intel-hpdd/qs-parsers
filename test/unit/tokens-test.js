@@ -25,6 +25,10 @@ describe('tokens', () => {
         pattern: /^__contains/
       },
       {
+        name: '__startswith',
+        pattern: /^__startswith/
+      },
+      {
         name: '__endswith',
         pattern: /^__endswith/
       },
@@ -51,6 +55,10 @@ describe('tokens', () => {
       {
         name: 'number',
         pattern: /^\d+/
+      },
+      {
+        name: '.',
+        pattern: /^\./
       },
       {
         name: '-',
@@ -87,6 +95,10 @@ describe('tokens', () => {
         pattern: /^contains/
       },
       {
+        name: 'starts with',
+        pattern: /^starts with/
+      },
+      {
         name: 'ends with',
         pattern: /^ends with/
       },
@@ -113,6 +125,10 @@ describe('tokens', () => {
       {
         name: 'number',
         pattern: /^\d+/
+      },
+      {
+        name: '.',
+        pattern: /^\./
       },
       {
         name: '-',

@@ -45,6 +45,10 @@ export const qsToInputTokens = [
     pattern: /^__contains/
   },
   {
+    name: '__startswith',
+    pattern: /^__startswith/
+  },
+  {
     name: '__endswith',
     pattern: /^__endswith/
   },
@@ -71,6 +75,10 @@ export const qsToInputTokens = [
   {
     name: 'number',
     pattern: /^\d+/
+  },
+  {
+    name: '.',
+    pattern: /^\./
   },
   {
     name: '-',
@@ -101,6 +109,10 @@ export const inputToQsTokens = [
     pattern: /^contains/
   },
   {
+    name: 'starts with',
+    pattern: /^starts with/
+  },
+  {
     name: 'ends with',
     pattern: /^ends with/
   },
@@ -127,6 +139,10 @@ export const inputToQsTokens = [
   {
     name: 'number',
     pattern: /^\d+/
+  },
+  {
+    name: '.',
+    pattern: /^\./
   },
   {
     name: '-',

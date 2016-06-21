@@ -37,6 +37,7 @@ export const valueSep = (v:tokensToResult):tokensToResult => flow(
 export const and:tokensToResult = parsely.tokenTo('&', ' and ');
 
 export const contains:tokensToResult = parsely.tokenTo('__contains', ' contains ');
+export const startsWith:tokensToResult = parsely.tokenTo('__startswith', ' starts with ');
 export const endsWith:tokensToResult = parsely.tokenTo('__endswith', ' ends with ');
 export const equals:tokensToResult = parsely.tokenTo('=', ' = ');
 export const equalsEmpty:tokensToResult = parsely.tokenTo('=', '');
@@ -75,6 +76,13 @@ export const assign = (l:tokensToResult, r:tokensToResult) => parsely.parseStr([
 export const like = (l:tokensToResult, r:tokensToResult) => parsely.parseStr([
   l,
   contains,
+  equalsEmpty,
+  r
+]);
+
+export const starts = (l:tokensToResult, r:tokensToResult) => parsely.parseStr([
+  l,
+  startsWith,
   equalsEmpty,
   r
 ]);
