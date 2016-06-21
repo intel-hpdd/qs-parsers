@@ -60,14 +60,14 @@ export const gt:tokensToResult = parsely.parseStr([
   equals
 ]);
 
-const valueOrNumber = parsely.choice([
+const valueOrNumberOrDotOrDash = parsely.choice([
   dot,
   dash,
   value,
   number
 ]);
 
-const valueSep:tokensToResult = parsely.sepBy1(valueOrNumber, sep);
+const valueSep:tokensToResult = parsely.sepBy1(valueOrNumberOrDotOrDash, sep);
 const inList:tokensToResult = parsely.parseStr([
   value,
   inT,
@@ -121,7 +121,7 @@ export const ends:tokensToResult = parsely.parseStr([
 export const assign:tokensToResult = parsely.parseStr([
   value,
   equals,
-  parsely.many1(valueOrNumber)
+  parsely.many1(valueOrNumberOrDotOrDash)
 ]);
 export const inListOutOld:tokensToResult = flow(
   inList,
