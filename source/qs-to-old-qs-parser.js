@@ -24,6 +24,7 @@
 import {always, flow} from 'intel-fp';
 import * as parsely from 'intel-parsely';
 import {date} from './qs-to-input-parser.js';
+import {dot, dash} from './input-to-qs-parser.js';
 import type {tokensToResult} from 'intel-parsely';
 
 const token = parsely.token(always(true));
@@ -36,6 +37,7 @@ const value:tokensToResult = token('value');
 const inT:tokensToResult = token('__in');
 const sep:tokensToResult = token(',');
 const number:tokensToResult = token('number');
+
 export const orderBy:tokensToResult = parsely.parseStr([
   token('order_by'),
   equals
@@ -58,9 +60,14 @@ export const gt:tokensToResult = parsely.parseStr([
   equals
 ]);
 
-const valueOrNumber = parsely.choice([value, number]);
+const valueOrNumberOrDotOrDash = parsely.choice([
+  dot,
+  dash,
+  value,
+  number
+]);
 
-const valueSep:tokensToResult = parsely.sepBy1(valueOrNumber, sep);
+const valueSep:tokensToResult = parsely.sepBy1(valueOrNumberOrDotOrDash, sep);
 const inList:tokensToResult = parsely.parseStr([
   value,
   inT,
@@ -114,7 +121,7 @@ export const ends:tokensToResult = parsely.parseStr([
 export const assign:tokensToResult = parsely.parseStr([
   value,
   equals,
-  valueOrNumber
+  parsely.many1(valueOrNumberOrDotOrDash)
 ]);
 export const inListOutOld:tokensToResult = flow(
   inList,

@@ -25,7 +25,7 @@ import {curry, flow} from 'intel-fp';
 import * as parsely from 'intel-parsely';
 import type {tokensToResult} from 'intel-parsely';
 import { YYYY, MM, DD, hh, mm, ss, dash, colon } from './input-to-qs-parser.js';
-export {value, number} from './input-to-qs-parser.js';
+export {value, number, dot, dash} from './input-to-qs-parser.js';
 
 const surround = curry(3, (open:string, close:string, str:string)  =>  open + str + close);
 export const sep:tokensToResult = parsely.tokenTo(',', ', ');

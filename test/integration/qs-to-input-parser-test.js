@@ -12,11 +12,22 @@ export const starts = qsToInput.starts(qsToInput.value, qsToInput.value);
 export const ends = qsToInput.ends(qsToInput.value, qsToInput.value);
 export const inList = qsToInput.inList(qsToInput.value, qsToInput.value);
 
+const hostnames = parsely.many1(
+  parsely.choice([
+    qsToInput.dot,
+    qsToInput.dash,
+    qsToInput.value,
+    qsToInput.number
+  ])
+);
+const assignHostname = qsToInput.assign(parsely.matchValue('hostname'), hostnames);
+
 const choices = parsely.choice([
   like,
   starts,
   ends,
   inList,
+  assignHostname,
   assign
 ]);
 const expr = parsely.sepBy1(
@@ -42,12 +53,12 @@ describe('qs to input parser test', () => {
     'a=': new Error('Expected value got end of string'),
     'a__in=': new Error('Expected value got end of string'),
     'a__in==': new Error('Expected value got = at character 6'),
-    '__in': new Error('Expected value got __in at character 0'),
-    '=': new Error('Expected value got = at character 0'),
-    '&': new Error('Expected value got & at character 0'),
+    '__in': new Error('Expected one of value, hostname got __in at character 0'),
+    '=': new Error('Expected one of value, hostname got = at character 0'),
+    '&': new Error('Expected one of value, hostname got & at character 0'),
     'a&': new Error('Expected one of __contains, __startswith, __endswith, __in, = got & at character 1'),
-    'a=b&&': new Error('Expected value got & at character 4'),
-    'a__in=b&&': new Error('Expected value got & at character 8'),
+    'a=b&&': new Error('Expected one of value, hostname got & at character 4'),
+    'a__in=b&&': new Error('Expected one of value, hostname got & at character 8'),
     'a=bar&b__contains=foo': 'a = bar and b contains foo',
     'a=foo&b=bar': 'a = foo and b = bar',
     'a=b': 'a = b',
@@ -60,7 +71,8 @@ describe('qs to input parser test', () => {
     'b__in=c&a__in=d&b__in=f,g,h': 'b in [c] and a in [d] and b in [f, g, h]',
     'b__in=c&c=d': 'b in [c] and c = d',
     'b__in=d&c=e&a__in=g&b__in=f,g,h&e=t&x__endswith=bar':
-      'b in [d] and c = e and a in [g] and b in [f, g, h] and e = t and x ends with bar'
+      'b in [d] and c = e and a in [g] and b in [f, g, h] and e = t and x ends with bar',
+    'hostname=lotus-35vm13.lotus.hpdd.lab.intel.com': 'hostname = lotus-35vm13.lotus.hpdd.lab.intel.com'
   };
 
   Object.keys(inputOutput).forEach(input => {
