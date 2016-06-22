@@ -110,7 +110,7 @@ export const starts:tokensToResult = parsely.parseStr([
   value,
   startsWith,
   equals,
-  value
+  parsely.many1(valueOrNumberOrDotOrDash)
 ]);
 export const ends:tokensToResult = parsely.parseStr([
   value,
