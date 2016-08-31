@@ -129,7 +129,7 @@ export const inListOutOld:tokensToResult = flow(
     const parts = output.split('=');
     const ins = parts[1]
       .replace(/\[(.+)]/, '$1')
-      .split(',');
+      .split('%2C');
 
     return ins
       .map(x => `${parts[0]}=${x}`)

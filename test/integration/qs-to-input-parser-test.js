@@ -11,6 +11,7 @@ export const like = qsToInput.like(qsToInput.value, qsToInput.value);
 export const starts = qsToInput.starts(qsToInput.value, qsToInput.value);
 export const ends = qsToInput.ends(qsToInput.value, qsToInput.value);
 export const inList = qsToInput.inList(qsToInput.value, qsToInput.value);
+export const dateParser = qsToInput.dateParser(qsToInput.value);
 
 const hostnames = parsely.many1(
   parsely.choice([
@@ -65,12 +66,12 @@ describe('qs to input parser test', () => {
     'a__startswith=foobar': 'a starts with foobar',
     'a__endswith=foobar': 'a ends with foobar',
     'a__contains=foobar': 'a contains foobar',
-    'a__in=foo,bar,baz': 'a in [foo, bar, baz]',
+    'a__in=foo%2Cbar%2Cbaz': 'a in [foo, bar, baz]',
     'a=b&c=d&x__in=bar': 'a = b and c = d and x in [bar]',
-    'a__in=b&b__in=c,d,e': 'a in [b] and b in [c, d, e]',
-    'b__in=c&a__in=d&b__in=f,g,h': 'b in [c] and a in [d] and b in [f, g, h]',
+    'a__in=b&b__in=c%2Cd%2Ce': 'a in [b] and b in [c, d, e]',
+    'b__in=c&a__in=d&b__in=f%2Cg%2Ch': 'b in [c] and a in [d] and b in [f, g, h]',
     'b__in=c&c=d': 'b in [c] and c = d',
-    'b__in=d&c=e&a__in=g&b__in=f,g,h&e=t&x__endswith=bar':
+    'b__in=d&c=e&a__in=g&b__in=f%2Cg%2Ch&e=t&x__endswith=bar':
       'b in [d] and c = e and a in [g] and b in [f, g, h] and e = t and x ends with bar',
     'hostname=lotus-35vm13.lotus.hpdd.lab.intel.com': 'hostname = lotus-35vm13.lotus.hpdd.lab.intel.com'
   };
@@ -89,5 +90,17 @@ describe('qs to input parser test', () => {
 
       expect(result).toBe(output);
     });
+  });
+
+  it('should parse a date', () => {
+    const parseDate = flow(
+      tokenizer,
+      dateParser,
+      x => x.result
+    );
+
+    var result = parseDate('datetime__gte=2016-08-30%2019%3A44%3A31');
+
+    expect(result).toBe('datetime >= 2016-08-30 19:44:31');
   });
 });
