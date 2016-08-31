@@ -38,7 +38,7 @@ export const qsToInputTokens = [
   },
   {
     name: ',',
-    pattern: /^,/
+    pattern: /^%2C/
   },
   {
     name: '__contains',
@@ -86,7 +86,7 @@ export const qsToInputTokens = [
   },
   {
     name: ':',
-    pattern: /^:/
+    pattern: /^%3A/
   },
   {
     name: 'value',

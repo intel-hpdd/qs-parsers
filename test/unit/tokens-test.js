@@ -18,7 +18,7 @@ describe('tokens', () => {
       },
       {
         name: ',',
-        pattern: /^,/
+        pattern: /^%2C/
       },
       {
         name: '__contains',
@@ -66,7 +66,7 @@ describe('tokens', () => {
       },
       {
         name: ':',
-        pattern: /^:/
+        pattern: /^%3A/
       },
       {
         name: 'value',
