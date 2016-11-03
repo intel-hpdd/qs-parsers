@@ -1,10 +1,18 @@
 //@flow
 
-import {describe, it, expect} from '../jasmine.js';
-import {flow} from 'intel-fp';
-import {qsToInputTokens} from '../../source/tokens.js';
+import * as fp from 'intel-fp';
 import * as qsToInput from '../../source/qs-to-input-parser.js';
 import * as parsely from 'intel-parsely';
+
+import {
+  describe,
+  it,
+  expect
+} from '../jasmine.js';
+
+import {
+  qsToInputTokens
+} from '../../source/tokens.js';
 
 export const assign = qsToInput.assign(qsToInput.value, qsToInput.value);
 export const like = qsToInput.like(qsToInput.value, qsToInput.value);
@@ -42,7 +50,7 @@ const statusParser = parsely.parseStr([
   parsely.endOfString
 ]);
 const tokenizer = parsely.getLexer(qsToInputTokens);
-const statusQsToInputParser = flow(
+const statusQsToInputParser = fp.flow(
   tokenizer,
   statusParser,
   x => x.result
@@ -81,13 +89,13 @@ describe('qs to input parser test', () => {
   };
 
   Object.keys(inputOutput).forEach(input => {
-    var output = inputOutput[input];
+    let output = inputOutput[input];
 
     if (output instanceof Error)
       output = output.message;
 
     it('should parse ' + (input || ' empty input ') + ' to ' + output, function () {
-      var result = statusQsToInputParser(input);
+      let result = statusQsToInputParser(input);
 
       if (result instanceof Error)
         result = result.message;

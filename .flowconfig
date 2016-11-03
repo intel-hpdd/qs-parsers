@@ -1,11 +1,10 @@
 [ignore]
 .*qs-parsers/dist.*
-.*\(lib\|test\|builtin-modules\|binary-extensions\|faker\|spdx\).*\.json
+.*node_modules/flow-coverage-report.*
 
 [include]
 
 [libs]
+node_modules/intel-flow-jasmine/flow-typed
 
 [options]
-module.name_mapper='^intel-parsely/\(.*\)\.js$' -> '<PROJECT_ROOT>/node_modules/intel-parsely/dist/source/\1.js.flow'
-module.use_strict=true
