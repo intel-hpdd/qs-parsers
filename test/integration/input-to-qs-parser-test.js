@@ -1,7 +1,7 @@
 //@flow
 
 import {describe, it, expect} from '../jasmine.js';
-import {flow} from 'intel-fp';
+import * as fp from 'intel-fp';
 import * as inputParser from '../../source/input-to-qs-parser.js';
 import * as parsely from 'intel-parsely';
 import {inputToQsTokens} from '../../source/tokens.js';
@@ -47,7 +47,7 @@ const statusParser = parsely.parseStr([
   parsely.endOfString
 ]);
 
-const statusInputToQsParser = flow(
+const statusInputToQsParser = fp.flow(
   tokenizer,
   statusParser,
   x => x.result
@@ -80,13 +80,13 @@ describe('the input to qs parser', () => {
 
   Object.keys(inputOutput)
     .forEach(input => {
-      var output = inputOutput[input];
+      let output = inputOutput[input];
 
       if (output instanceof Error)
         output = output.message;
 
       it(`should parse ${input || ' empty input '} to ${output}`, () => {
-        var result = statusInputToQsParser(input);
+        let result = statusInputToQsParser(input);
 
         if (result instanceof Error)
           result = result.message;

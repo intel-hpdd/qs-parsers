@@ -21,13 +21,13 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {always, flow} from 'intel-fp';
+import * as fp from 'intel-fp';
 import * as parsely from 'intel-parsely';
 import {date} from './qs-to-input-parser.js';
 import {dot, dash} from './input-to-qs-parser.js';
 import type {tokensToResult} from 'intel-parsely';
 
-const token = parsely.token(always(true));
+const token = parsely.token(fp.always(true));
 
 const equals:tokensToResult = token('=');
 const contains:tokensToResult = token('__contains');
@@ -123,7 +123,7 @@ export const assign:tokensToResult = parsely.parseStr([
   equals,
   parsely.many1(valueOrNumberOrDotOrDash)
 ]);
-export const inListOutOld:tokensToResult = flow(
+export const inListOutOld:tokensToResult = fp.flow(
   inList,
   parsely.onSuccess(output => {
     const parts = output.split('=');

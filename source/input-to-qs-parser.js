@@ -22,12 +22,15 @@
 // express and approved by Intel in writing.
 
 
-import {always, flow} from 'intel-fp';
+import * as fp from 'intel-fp';
 import * as parsely from 'intel-parsely';
-import type {tokensToResult} from 'intel-parsely';
 
-const token = parsely.token(always(true));
-const successTxt = txt => parsely.onSuccess(always(txt));
+import type {
+  tokensToResult
+} from 'intel-parsely';
+
+const token = parsely.token(fp.always(true));
+const successTxt = txt => parsely.onSuccess(fp.always(txt));
 
 
 export const value:tokensToResult = token('value');
@@ -55,7 +58,7 @@ export const dot = parsely.tokenTo('.', '.');
 
 export const gt = parsely.tokenTo('>', '__gt=');
 
-export const gte:tokensToResult = flow(
+export const gte:tokensToResult = fp.flow(
   parsely.parseStr([
     gt,
     equals
@@ -66,7 +69,7 @@ export const gte:tokensToResult = flow(
 
 export const lt = parsely.tokenTo('<', '__lt=');
 
-export const lte:tokensToResult = flow(
+export const lte:tokensToResult = fp.flow(
   parsely.parseStr([
     lt,
     equals
@@ -90,7 +93,7 @@ export const ascOrDesc:tokensToResult = parsely.choice([
   desc
 ]);
 
-const datePart = (cond:Function, expected:string):tokensToResult => flow(
+const datePart = (cond:Function, expected:string):tokensToResult => fp.flow(
   parsely.token(
     cond,
     'number'
@@ -135,7 +138,7 @@ export const date = parsely.parseStr([
   dash,
   MM,
   dash,
-  flow(
+  fp.flow(
     DD,
     parsely.onSuccess(x => x + ' ')
   ),

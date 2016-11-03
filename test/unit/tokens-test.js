@@ -1,5 +1,13 @@
-import {describe, it, expect} from '../jasmine.js';
-import {qsToInputTokens, inputToQsTokens} from '../../source/tokens.js';
+import {
+  qsToInputTokens,
+  inputToQsTokens
+} from '../../source/tokens.js';
+
+import {
+  describe,
+  it,
+  expect
+} from '../jasmine.js';
 
 describe('tokens', () => {
   it('should have tokens for qs to input', () => {

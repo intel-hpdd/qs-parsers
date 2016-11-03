@@ -21,17 +21,35 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import {curry, flow} from 'intel-fp';
+import * as fp from 'intel-fp';
 import * as parsely from 'intel-parsely';
-import type {tokensToResult} from 'intel-parsely';
-import { YYYY, MM, DD, hh, mm, ss, dash, colon } from './input-to-qs-parser.js';
-export {value, number, dot, dash} from './input-to-qs-parser.js';
 
-const surround = curry(3, (open:string, close:string, str:string)  =>  open + str + close);
+import type {
+  tokensToResult
+} from 'intel-parsely';
+
+import {
+  YYYY,
+  MM,
+  DD,
+  hh,
+  mm,
+  ss,
+  dash,
+  colon
+} from './input-to-qs-parser.js';
+
+export {
+  value,
+  number,
+  dot,
+  dash
+} from './input-to-qs-parser.js';
+
 export const sep:tokensToResult = parsely.tokenTo(',', ', ');
-export const valueSep = (v:tokensToResult):tokensToResult => flow(
+export const valueSep = (v:tokensToResult):tokensToResult => fp.flow(
   parsely.sepBy1(v, sep),
-  parsely.onSuccess(surround('[', ']'))
+  parsely.onSuccess(x => `[${x}]`)
 );
 
 export const and:tokensToResult = parsely.tokenTo('&', ' and ');
@@ -129,18 +147,18 @@ export const dateParser = (v:tokensToResult) => parsely.parseStr([
   date
 ]);
 
-export const orderByParser = (v:tokensToResult) => flow(
+export const orderByParser = (v:tokensToResult) => fp.flow(
   parsely.parseStr([
     orderBy,
     parsely.choice([
-      flow(
+      fp.flow(
         parsely.parseStr([
           parsely.tokenTo('-', ''),
           v
         ]),
-        parsely.onSuccess(x => x + ' desc ')
+        parsely.onSuccess((x:string) => x + ' desc ')
       ),
-      flow(
+      fp.flow(
         v,
         parsely.onSuccess(x => x + ' asc ')
       )

@@ -3,7 +3,7 @@
 . ~/.nvm/nvm.sh
 
 NODE_VERSIONS="
-4
+6
 stable
 "
 
@@ -12,6 +12,7 @@ do
     nvm use $node_version
     rm -rf node_modules
     npm i
+    npm run flow
+    npm run flow:cover
     npm run cover -- --reporter=cobertura
-    mv qs-parsers-results*.xml ../results
 done
