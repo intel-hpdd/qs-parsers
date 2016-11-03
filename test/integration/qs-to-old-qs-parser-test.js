@@ -1,11 +1,24 @@
-import {describe, it, expect} from '../jasmine.js';
-import {flow} from 'intel-fp';
-import {parser} from '../../source/qs-to-old-qs-parser.js';
-import {qsToInputTokens} from '../../source/tokens.js';
+// @flow
+
 import * as parsely from 'intel-parsely';
+import * as fp from 'intel-fp';
+
+import {
+  parser
+} from '../../source/qs-to-old-qs-parser.js';
+
+import {
+  qsToInputTokens
+} from '../../source/tokens.js';
+
+import {
+  describe,
+  it,
+  expect
+} from '../jasmine.js';
 
 const tokenizer = parsely.getLexer(qsToInputTokens);
-const statusQsToOldQsParser = flow(tokenizer, parser, x => x.result);
+const statusQsToOldQsParser = fp.flow(tokenizer, parser, x => x.result);
 
 
 describe('qs to old qs parser', () => {
