@@ -1,6 +1,4 @@
 [ignore]
-.*qs-parsers/dist.*
-.*node_modules/flow-coverage-report.*
 
 [include]
 
