@@ -3,7 +3,7 @@
 //
 // INTEL CONFIDENTIAL
 //
-// Copyright 2013-2016 Intel Corporation All Rights Reserved.
+// Copyright 2013-2017 Intel Corporation All Rights Reserved.
 //
 // The source code contained or described herein and all documents related
 // to the source code ("Material") are owned by Intel Corporation or its
@@ -21,22 +21,18 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
+import * as fp from '@iml/fp';
+import * as parsely from '@iml/parsely';
 
-import * as fp from 'intel-fp';
-import * as parsely from 'intel-parsely';
-
-import type {
-  tokensToResult
-} from 'intel-parsely';
+import type { tokensToResult } from '@iml/parsely';
 
 const token = parsely.token(fp.always(true));
 const successTxt = txt => parsely.onSuccess(fp.always(txt));
 
+export const value: tokensToResult = token('value');
+export const number: tokensToResult = token('number');
 
-export const value:tokensToResult = token('value');
-export const number:tokensToResult = token('number');
-
-export const inToken:tokensToResult = parsely.matchValueTo('in', '__in=');
+export const inToken: tokensToResult = parsely.matchValueTo('in', '__in=');
 
 export const equals = parsely.tokenTo('=', '=');
 
@@ -58,22 +54,16 @@ export const dot = parsely.tokenTo('.', '.');
 
 export const gt = parsely.tokenTo('>', '__gt=');
 
-export const gte:tokensToResult = fp.flow(
-  parsely.parseStr([
-    gt,
-    equals
-  ]),
+export const gte: tokensToResult = fp.flow(
+  parsely.parseStr([gt, equals]),
   successTxt('__gte='),
   parsely.onError(e => e.adjust(['>=']))
 );
 
 export const lt = parsely.tokenTo('<', '__lt=');
 
-export const lte:tokensToResult = fp.flow(
-  parsely.parseStr([
-    lt,
-    equals
-  ]),
+export const lte: tokensToResult = fp.flow(
+  parsely.parseStr([lt, equals]),
   successTxt('__lte='),
   parsely.onError(e => e.adjust(['<=']))
 );
@@ -84,29 +74,21 @@ export const colon = parsely.tokenTo(':', ':');
 
 export const orderBy = parsely.tokenTo('order by', 'order_by=');
 
-export const desc:tokensToResult = parsely.matchValueTo('desc', '-');
+export const desc: tokensToResult = parsely.matchValueTo('desc', '-');
 
-export const asc:tokensToResult = parsely.matchValueTo('asc', '');
+export const asc: tokensToResult = parsely.matchValueTo('asc', '');
 
-export const ascOrDesc:tokensToResult = parsely.choice([
-  asc,
-  desc
-]);
+export const ascOrDesc: tokensToResult = parsely.choice([asc, desc]);
 
-const datePart = (cond:Function, expected:string):tokensToResult => fp.flow(
-  parsely.token(
-    cond,
-    'number'
-  ),
-  parsely.onError(e => e.adjust([expected]))
-);
+const datePart = (cond: Function, expected: string): tokensToResult =>
+  fp.flow(
+    parsely.token(cond, 'number'),
+    parsely.onError(e => e.adjust([expected]))
+  );
 
 const parseNum = n => parseInt(n, 10);
 
-export const YYYY = datePart(
-  x => x.length === 4,
-  'four digit year'
-);
+export const YYYY = datePart(x => x.length === 4, 'four digit year');
 
 export const MM = datePart(
   x => x.length == 2 && parseNum(x) > 0 && parseNum(x) < 13,
@@ -138,10 +120,7 @@ export const date = parsely.parseStr([
   dash,
   MM,
   dash,
-  fp.flow(
-    DD,
-    parsely.onSuccess(x => x + ' ')
-  ),
+  fp.flow(DD, parsely.onSuccess(x => x + ' ')),
   hh,
   colon,
   mm,
@@ -149,71 +128,34 @@ export const date = parsely.parseStr([
   ss
 ]);
 
-export const dateParser = (v:tokensToResult) => parsely.parseStr([
-  v,
-  parsely.choice([
-    gte,
-    lte,
-    gt,
-    lt,
-    equals
-  ]),
-  date
-]);
+export const dateParser = (v: tokensToResult) =>
+  parsely.parseStr([v, parsely.choice([gte, lte, gt, lt, equals]), date]);
 
-export const offset:tokensToResult = parsely.matchValue('offset');
+export const offset: tokensToResult = parsely.matchValue('offset');
 
-export const offsetParser = parsely.parseStr([
-  offset,
-  equals,
-  number
-]);
+export const offsetParser = parsely.parseStr([offset, equals, number]);
 
-export const limit:tokensToResult = parsely.matchValue('limit');
+export const limit: tokensToResult = parsely.matchValue('limit');
 
-export const limitParser = parsely.parseStr([
-  limit,
-  equals,
-  number
-]);
+export const limitParser = parsely.parseStr([limit, equals, number]);
 
-export const assign = (l:tokensToResult, r:tokensToResult):tokensToResult => parsely.parseStr([
-  l,
-  equals,
-  r
-]);
+export const assign = (l: tokensToResult, r: tokensToResult): tokensToResult =>
+  parsely.parseStr([l, equals, r]);
 
-export const like = (l:tokensToResult, r:tokensToResult) => parsely.parseStr([
-  l,
-  contains,
-  r
-]);
+export const like = (l: tokensToResult, r: tokensToResult) =>
+  parsely.parseStr([l, contains, r]);
 
-export const starts = (l:tokensToResult, r:tokensToResult) => parsely.parseStr([
-  l,
-  startsWith,
-  r
-]);
+export const starts = (l: tokensToResult, r: tokensToResult) =>
+  parsely.parseStr([l, startsWith, r]);
 
-export const ends = (l:tokensToResult, r:tokensToResult) => parsely.parseStr([
-  l,
-  endsWith,
-  r
-]);
+export const ends = (l: tokensToResult, r: tokensToResult) =>
+  parsely.parseStr([l, endsWith, r]);
 
-export const valueSep = (v:tokensToResult):tokensToResult => parsely.sepBy1(
-  v,
-  sep
-);
+export const valueSep = (v: tokensToResult): tokensToResult =>
+  parsely.sepBy1(v, sep);
 
-export const list = (v:tokensToResult):tokensToResult => parsely.parseStr([
-  startList,
-  valueSep(v),
-  endList
-]);
+export const list = (v: tokensToResult): tokensToResult =>
+  parsely.parseStr([startList, valueSep(v), endList]);
 
-export const inList = (l:tokensToResult, r:tokensToResult):tokensToResult => parsely.parseStr([
-  l,
-  inToken,
-  list(r)
-]);
+export const inList = (l: tokensToResult, r: tokensToResult): tokensToResult =>
+  parsely.parseStr([l, inToken, list(r)]);

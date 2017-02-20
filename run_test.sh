@@ -11,8 +11,6 @@ for node_version in $NODE_VERSIONS
 do
     nvm use $node_version
     rm -rf node_modules
-    npm i
-    npm run flow
-    npm run flow:cover
-    npm run cover -- --reporter=cobertura
+    yarn install
+    yarn run cover
 done
