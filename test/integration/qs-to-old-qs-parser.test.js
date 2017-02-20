@@ -1,25 +1,16 @@
 // @flow
 
-import * as parsely from 'intel-parsely';
-import * as fp from 'intel-fp';
+import * as parsely from '@iml/parsely';
+import * as fp from '@iml/fp';
 
-import {
-  parser
-} from '../../source/qs-to-old-qs-parser.js';
+import { parser } from '../../source/qs-to-old-qs-parser.js';
 
-import {
-  qsToInputTokens
-} from '../../source/tokens.js';
+import { qsToInputTokens } from '../../source/tokens.js';
 
-import {
-  describe,
-  it,
-  expect
-} from '../jasmine.js';
+import { describe, it, expect } from '../jasmine.js';
 
 const tokenizer = parsely.getLexer(qsToInputTokens);
 const statusQsToOldQsParser = fp.flow(tokenizer, parser, x => x.result);
-
 
 describe('qs to old qs parser', () => {
   const inputOutput = {
@@ -39,22 +30,19 @@ describe('qs to old qs parser', () => {
     'a__in=2&b__in=3%2C4%2C5': 'a__in=2&b__in=3&b__in=4&b__in=5',
     'b__in=1&a__in=2&b__in=3%2C4%2C5': 'b__in=1&a__in=2&b__in=3&b__in=4&b__in=5',
     'b__in=1&c=1': 'b__in=1&c=1',
-    'b__in=1&c=1&a__in=2&b__in=3%2C4%2C5&e=4&x__endswith=bar':
-      'b__in=1&c=1&a__in=2&b__in=3&b__in=4&b__in=5&e=4&x__endswith=bar',
+    'b__in=1&c=1&a__in=2&b__in=3%2C4%2C5&e=4&x__endswith=bar': 'b__in=1&c=1&a__in=2&b__in=3&b__in=4&b__in=5&e=4&x__endswith=bar',
     'a=lotus-35vm13.lotus.hpdd.lab.intel.com': 'a=lotus-35vm13.lotus.hpdd.lab.intel.com'
   };
 
   Object.keys(inputOutput).forEach(input => {
     let output = inputOutput[input];
 
-    if (output instanceof Error)
-      output = output.message;
+    if (output instanceof Error) output = output.message;
 
-    it(`should parse ${(input || ' empty input ')}  to ${output}`, () => {
+    it(`should parse ${input || ' empty input '}  to ${output}`, () => {
       let result = statusQsToOldQsParser(input);
 
-      if (result instanceof Error)
-        result = result.message;
+      if (result instanceof Error) result = result.message;
 
       expect(result).toBe(output);
     });
