@@ -1,6 +1,6 @@
 {
   "name": "@iml/qs-parsers",
-  "version": "3.1.4",
+  "version": "4.0.0",
   "description": "A set of parsers useful for parsing input <-> qs",
   "main": "source/index.js",
   "scripts": {
