@@ -86,7 +86,8 @@ describe('the input to qs parser', () => {
       'Expected two digit second between 00 and 59 got 60 at character 22'
     ),
     'a <= 2016-12-31 23:59:59': 'a__lte=2016-12-31 23:59:59',
-    'hostname = lotus-35vm13.lotus.hpdd.lab.intel.com': 'hostname=lotus-35vm13.lotus.hpdd.lab.intel.com'
+    'hostname = lotus-35vm13.lotus.hpdd.lab.intel.com':
+      'hostname=lotus-35vm13.lotus.hpdd.lab.intel.com'
   };
 
   Object.keys(inputOutput).forEach(input => {

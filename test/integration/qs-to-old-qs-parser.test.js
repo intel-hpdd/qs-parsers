@@ -28,10 +28,13 @@ describe('qs to old qs parser', () => {
     'a__lte=2016-05-02%2000%3A00%3A00': 'a__lte=2016-05-02 00:00:00',
     'a__lt=2016-05-02%2023%3A59%3A59': 'a__lt=2016-05-02 23:59:59',
     'a__in=2&b__in=3%2C4%2C5': 'a__in=2&b__in=3&b__in=4&b__in=5',
-    'b__in=1&a__in=2&b__in=3%2C4%2C5': 'b__in=1&a__in=2&b__in=3&b__in=4&b__in=5',
+    'b__in=1&a__in=2&b__in=3%2C4%2C5':
+      'b__in=1&a__in=2&b__in=3&b__in=4&b__in=5',
     'b__in=1&c=1': 'b__in=1&c=1',
-    'b__in=1&c=1&a__in=2&b__in=3%2C4%2C5&e=4&x__endswith=bar': 'b__in=1&c=1&a__in=2&b__in=3&b__in=4&b__in=5&e=4&x__endswith=bar',
-    'a=lotus-35vm13.lotus.hpdd.lab.intel.com': 'a=lotus-35vm13.lotus.hpdd.lab.intel.com'
+    'b__in=1&c=1&a__in=2&b__in=3%2C4%2C5&e=4&x__endswith=bar':
+      'b__in=1&c=1&a__in=2&b__in=3&b__in=4&b__in=5&e=4&x__endswith=bar',
+    'a=lotus-35vm13.lotus.hpdd.lab.intel.com':
+      'a=lotus-35vm13.lotus.hpdd.lab.intel.com'
   };
 
   Object.keys(inputOutput).forEach(input => {
