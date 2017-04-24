@@ -73,11 +73,14 @@ describe('qs to input parser test', () => {
     'a__in=foo%2Cbar%2Cbaz': 'a in [foo, bar, baz]',
     'a=b&c=d&x__in=bar': 'a = b and c = d and x in [bar]',
     'a__in=b&b__in=c%2Cd%2Ce': 'a in [b] and b in [c, d, e]',
-    'b__in=c&a__in=d&b__in=f%2Cg%2Ch': 'b in [c] and a in [d] and b in [f, g, h]',
+    'b__in=c&a__in=d&b__in=f%2Cg%2Ch':
+      'b in [c] and a in [d] and b in [f, g, h]',
     'b__in=c&c=d': 'b in [c] and c = d',
     'a__gte=2016-08-30%2019%3A44%3A31': 'a >= 2016-08-30 19:44:31',
-    'b__in=d&c=e&a__in=g&b__in=f%2Cg%2Ch&e=t&x__endswith=bar': 'b in [d] and c = e and a in [g] and b in [f, g, h] and e = t and x ends with bar',
-    'hostname=lotus-35vm13.lotus.hpdd.lab.intel.com': 'hostname = lotus-35vm13.lotus.hpdd.lab.intel.com'
+    'b__in=d&c=e&a__in=g&b__in=f%2Cg%2Ch&e=t&x__endswith=bar':
+      'b in [d] and c = e and a in [g] and b in [f, g, h] and e = t and x ends with bar',
+    'hostname=lotus-35vm13.lotus.hpdd.lab.intel.com':
+      'hostname = lotus-35vm13.lotus.hpdd.lab.intel.com'
   };
 
   Object.keys(inputOutput).forEach(input => {
