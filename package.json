@@ -1,5 +1,5 @@
 {
-  "name": "@iml/qs-parsers",
+  "name": "@mfl/qs-parsers",
   "version": "4.0.0",
   "description": "A set of parsers useful for parsing input <-> qs",
   "main": "source/index.js",
@@ -10,7 +10,7 @@
     "flow": "flow"
   },
   "publishConfig": {
-    "registry": "https://ubit-artifactory-or.intel.com/artifactory/api/npm/iml-npm-local"
+    "access": "public"
   },
   "pre-commit": [
     "eslint",
@@ -19,7 +19,7 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.intel.com:IML/qs-parsers.git"
+    "url": "git@github.intel.com:MFL/qs-parsers.git"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./setup-jasmine-env.js",
@@ -29,10 +29,10 @@
       "/test"
     ],
     "transformIgnorePatterns": [
-      "/node_modules/(?!@iml)/"
+      "/node_modules/(?!@mfl)/"
     ]
   },
-  "author": "IML Team",
+  "author": "MFL Team",
   "license": "MIT",
   "devDependencies": {
     "babel-eslint": "7.1.1",
@@ -45,15 +45,15 @@
     "eslint-plugin-import": "2.2.0",
     "eslint-plugin-prettier": "2.0.0",
     "flow-bin": "0.39.0",
-    "intel-flow-jasmine": "1.6.0",
-    "intel-jasmine-n-matchers": "2.1.1",
+    "@mfl/flow-jasmine": "1.6.0",
+    "@mfl/jasmine-n-matchers": "2.1.1",
     "jasmine-reporters": "2.2.0",
     "jest": "18.1.0",
     "pre-commit": "1.2.2",
     "prettier": "0.18.0"
   },
   "dependencies": {
-    "@iml/fp": "7.0.8",
-    "@iml/parsely": "4.0.0"
+    "@mfl/fp": "7.0.8",
+    "@mfl/parsely": "4.0.0"
   }
 }
