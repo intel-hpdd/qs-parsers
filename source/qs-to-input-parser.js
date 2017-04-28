@@ -21,10 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from '@iml/fp';
-import * as parsely from '@iml/parsely';
+import * as fp from '@mfl/fp';
+import * as parsely from '@mfl/parsely';
 
-import type { tokensToResult } from '@iml/parsely';
+import type { tokensToResult } from '@mfl/parsely';
 
 import { YYYY, MM, DD, hh, mm, ss, dash, colon } from './input-to-qs-parser.js';
 
@@ -32,7 +32,7 @@ export { value, number, dot, dash } from './input-to-qs-parser.js';
 
 export const sep: tokensToResult = parsely.tokenTo(',', ', ');
 export const valueSep = (v: tokensToResult): tokensToResult =>
-  fp.flow(parsely.sepBy1(v, sep), parsely.onSuccess(x => `[${x}]`));
+  fp.flow(parsely.sepBy1(v)(sep), parsely.onSuccess(x => `[${x}]`));
 
 export const and: tokensToResult = parsely.tokenTo('&', ' and ');
 

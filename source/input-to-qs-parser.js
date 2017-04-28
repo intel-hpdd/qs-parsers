@@ -21,10 +21,10 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from '@iml/fp';
-import * as parsely from '@iml/parsely';
+import * as fp from '@mfl/fp';
+import * as parsely from '@mfl/parsely';
 
-import type { tokensToResult } from '@iml/parsely';
+import type { tokensToResult } from '@mfl/parsely';
 
 const token = parsely.token(fp.always(true));
 const successTxt = txt => parsely.onSuccess(fp.always(txt));
@@ -82,7 +82,7 @@ export const ascOrDesc: tokensToResult = parsely.choice([asc, desc]);
 
 const datePart = (cond: Function, expected: string): tokensToResult =>
   fp.flow(
-    parsely.token(cond, 'number'),
+    parsely.token(cond)('number'),
     parsely.onError(e => e.adjust([expected]))
   );
 
@@ -152,7 +152,7 @@ export const ends = (l: tokensToResult, r: tokensToResult) =>
   parsely.parseStr([l, endsWith, r]);
 
 export const valueSep = (v: tokensToResult): tokensToResult =>
-  parsely.sepBy1(v, sep);
+  parsely.sepBy1(v)(sep);
 
 export const list = (v: tokensToResult): tokensToResult =>
   parsely.parseStr([startList, valueSep(v), endList]);

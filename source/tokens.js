@@ -21,7 +21,7 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as parsely from '@iml/parsely';
+import * as parsely from '@mfl/parsely';
 
 export const qsToInputTokens = [
   {

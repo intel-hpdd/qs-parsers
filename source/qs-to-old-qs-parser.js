@@ -21,11 +21,11 @@
 // otherwise. Any license under such intellectual property rights must be
 // express and approved by Intel in writing.
 
-import * as fp from '@iml/fp';
-import * as parsely from '@iml/parsely';
+import * as fp from '@mfl/fp';
+import * as parsely from '@mfl/parsely';
 import { date } from './qs-to-input-parser.js';
 import { dot, dash } from './input-to-qs-parser.js';
-import type { tokensToResult } from '@iml/parsely';
+import type { tokensToResult } from '@mfl/parsely';
 
 const token = parsely.token(fp.always(true));
 
@@ -50,7 +50,7 @@ export const gt: tokensToResult = parsely.parseStr([token('__gt'), equals]);
 
 const valueOrNumberOrDotOrDash = parsely.choice([dot, dash, value, number]);
 
-const valueSep: tokensToResult = parsely.sepBy1(valueOrNumberOrDotOrDash, sep);
+const valueSep: tokensToResult = parsely.sepBy1(valueOrNumberOrDotOrDash)(sep);
 const inList: tokensToResult = parsely.parseStr([value, inT, equals, valueSep]);
 
 export const orderByParser = parsely.parseStr([
@@ -107,7 +107,7 @@ const choices = parsely.choice([
   assign,
   orderByParser
 ]);
-const expr = parsely.sepBy1(choices, and);
+const expr = parsely.sepBy1(choices)(and);
 const emptyOrExpr = parsely.optional(expr);
 
 export const parser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);

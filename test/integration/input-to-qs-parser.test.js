@@ -1,9 +1,9 @@
 //@flow
 
 import { describe, it, expect } from '../jasmine.js';
-import * as fp from '@iml/fp';
+import * as fp from '@mfl/fp';
 import * as inputParser from '../../source/input-to-qs-parser.js';
-import * as parsely from '@iml/parsely';
+import * as parsely from '@mfl/parsely';
 import { inputToQsTokens } from '../../source/tokens.js';
 
 const tokenizer = parsely.getLexer(inputToQsTokens);
@@ -38,7 +38,7 @@ const choices = parsely.choice([
   assign,
   dateParser
 ]);
-const expr = parsely.sepBy1(choices, inputParser.and);
+const expr = parsely.sepBy1(choices)(inputParser.and);
 const emptyOrExpr = parsely.optional(expr);
 const statusParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 
