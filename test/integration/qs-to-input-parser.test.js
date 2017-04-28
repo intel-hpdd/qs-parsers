@@ -1,8 +1,8 @@
 //@flow
 
-import * as fp from '@iml/fp';
+import * as fp from '@mfl/fp';
 import * as qsToInput from '../../source/qs-to-input-parser.js';
-import * as parsely from '@iml/parsely';
+import * as parsely from '@mfl/parsely';
 
 import { describe, it, expect } from '../jasmine.js';
 
@@ -37,7 +37,7 @@ const choices = parsely.choice([
   assign,
   dateParser
 ]);
-const expr = parsely.sepBy1(choices, qsToInput.and);
+const expr = parsely.sepBy1(choices)(qsToInput.and);
 const emptyOrExpr = parsely.optional(expr);
 const statusParser = parsely.parseStr([emptyOrExpr, parsely.endOfString]);
 const tokenizer = parsely.getLexer(qsToInputTokens);
