@@ -1,6 +1,6 @@
 {
   "name": "@mfl/qs-parsers",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "A set of parsers useful for parsing input <-> qs",
   "main": "source/index.js",
   "scripts": {
