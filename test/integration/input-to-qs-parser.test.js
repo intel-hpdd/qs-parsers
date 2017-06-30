@@ -1,9 +1,9 @@
 //@flow
 
 import { describe, it, expect } from '../jasmine.js';
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import * as inputParser from '../../source/input-to-qs-parser.js';
-import * as parsely from '@mfl/parsely';
+import * as parsely from '@iml/parsely';
 import { inputToQsTokens } from '../../source/tokens.js';
 
 const tokenizer = parsely.getLexer(inputToQsTokens);
