@@ -1,8 +1,8 @@
 //@flow
 
-import * as fp from '@mfl/fp';
+import * as fp from '@iml/fp';
 import * as qsToInput from '../../source/qs-to-input-parser.js';
-import * as parsely from '@mfl/parsely';
+import * as parsely from '@iml/parsely';
 
 import { describe, it, expect } from '../jasmine.js';
 

@@ -1,7 +1,7 @@
 // @flow
 
-import * as parsely from '@mfl/parsely';
-import * as fp from '@mfl/fp';
+import * as parsely from '@iml/parsely';
+import * as fp from '@iml/fp';
 
 import { parser } from '../../source/qs-to-old-qs-parser.js';
 

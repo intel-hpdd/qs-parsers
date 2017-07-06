@@ -5,10 +5,10 @@
 // Use of this source code is governed by a MIT-style
 // license that can be found in the LICENSE file.
 
-import * as fp from '@mfl/fp';
-import * as parsely from '@mfl/parsely';
+import * as fp from '@iml/fp';
+import * as parsely from '@iml/parsely';
 
-import type { tokensToResult } from '@mfl/parsely';
+import type { tokensToResult } from '@iml/parsely';
 
 import { YYYY, MM, DD, hh, mm, ss, dash, colon } from './input-to-qs-parser.js';
 
