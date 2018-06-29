@@ -7,8 +7,8 @@
 
 import * as fp from '@iml/fp';
 import * as parsely from '@iml/parsely';
-import { space } from './qs-to-input-parser.js';
-import { dot, dash, YYYY, MM, DD, hh, mm, ss, colon } from './input-to-qs-parser.js';
+import { date } from './qs-to-input-parser.js';
+import { dot, dash } from './input-to-qs-parser.js';
 import type { tokensToResult } from '@iml/parsely';
 
 const token = parsely.token(fp.always(true));
@@ -38,14 +38,6 @@ export const orderByParser = parsely.parseStr([
   orderBy,
   parsely.choice([parsely.parseStr([token('-'), value]), value])
 ]);
-
-const UTC = parsely.matchValueTo('UTC', 'Z');
-const utc = parsely.matchValueTo('utc', 'Z');
-const Z = parsely.matchValueTo('Z', 'Z');
-const z = parsely.matchValueTo('z', 'Z');
-
-export const utcFlag = parsely.choice([utc, UTC, z, Z]);
-export const date = parsely.parseStr([YYYY, dash, MM, dash, DD, space, hh, colon, mm, colon, ss, utcFlag]);
 
 export const dateParser = parsely.parseStr([value, parsely.choice([gte, lte, gt, lt, equals]), date]);
 

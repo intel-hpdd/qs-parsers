@@ -53,13 +53,10 @@ describe('the input to qs parser', () => {
     'a >= 2016-12-31 24:20:23': new Error('Expected two digit hour between 1 and 23 got 24 at character 16'),
     'a = 2016-12-31 23:60:23': new Error('Expected two digit minute between 00 and 59 got 60 at character 18'),
     'a <= 2016-12-31 23:59:60': new Error('Expected two digit second between 00 and 59 got 60 at character 22'),
-    'a <= 2018-06-28 08:11:32B': new Error('Expected one of utc, UTC, z, Z got B at character 24'),
-    'a <= 2016-12-31 23:59:59UTC': 'a__lte=2016-12-31 23:59:59UTC',
-    'a <= 2018-06-28 08:11:32UTC': 'a__lte=2018-06-28 08:11:32UTC',
-    'a <= 2018-06-28 08:11:32utc': 'a__lte=2018-06-28 08:11:32utc',
-    'a <= 2018-06-28 08:11:32Z': 'a__lte=2018-06-28 08:11:32Z',
-    'a <= 2018-06-28 08:11:32z': 'a__lte=2018-06-28 08:11:32z',
-    'a <= 2018-06-28 08:11:32UTC and c=d': 'a__lte=2018-06-28 08:11:32UTC&c=d',
+    'a <= 2018-06-28 08:11:32B': new Error('Expected one of utc, UTC got B at character 24'),
+    'a <= 2018-06-28 08:11:32UTC': 'a__lte=2018-06-28 08:11:32Z',
+    'a <= 2018-06-28 08:11:32utc': 'a__lte=2018-06-28 08:11:32Z',
+    'a <= 2018-06-28 08:11:32UTC and c=d': 'a__lte=2018-06-28 08:11:32Z&c=d',
     'hostname = lotus-35vm13.lotus.hpdd.lab.intel.com': 'hostname=lotus-35vm13.lotus.hpdd.lab.intel.com'
   };
 

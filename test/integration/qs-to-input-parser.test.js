@@ -47,7 +47,7 @@ describe('qs to input parser test', () => {
     ),
     'a=b&&': new Error('Expected one of value, hostname got & at character 4'),
     'a__in=b&&': new Error('Expected one of value, hostname got & at character 8'),
-    'a__gte=2016-08-30%2019%3A44%3A31': new Error('Expected one of utc, UTC, z, Z got end of string'),
+    'a__gte=2016-08-30%2019%3A44%3A31': new Error('Expected one of utc, UTC got end of string'),
     'a=bar&b__contains=foo': 'a = bar and b contains foo',
     'a=foo&b=bar': 'a = foo and b = bar',
     'a=b': 'a = b',
@@ -59,10 +59,8 @@ describe('qs to input parser test', () => {
     'a__in=b&b__in=c%2Cd%2Ce': 'a in [b] and b in [c, d, e]',
     'b__in=c&a__in=d&b__in=f%2Cg%2Ch': 'b in [c] and a in [d] and b in [f, g, h]',
     'b__in=c&c=d': 'b in [c] and c = d',
-    'a__gte=2016-08-30%2019%3A44%3A31UTC': 'a >= 2016-08-30 19:44:31UTC',
-    'a__gte=2016-08-30%2019%3A44%3A31utc': 'a >= 2016-08-30 19:44:31utc',
-    'a__gte=2016-08-30%2019%3A44%3A31Z': 'a >= 2016-08-30 19:44:31Z',
-    'a__gte=2016-08-30%2019%3A44%3A31z': 'a >= 2016-08-30 19:44:31z',
+    'a__gte=2016-08-30%2019%3A44%3A31UTC': 'a >= 2016-08-30 19:44:31Z',
+    'a__gte=2016-08-30%2019%3A44%3A31utc': 'a >= 2016-08-30 19:44:31Z',
     'b__in=d&c=e&a__in=g&b__in=f%2Cg%2Ch&e=t&x__endswith=bar':
       'b in [d] and c = e and a in [g] and b in [f, g, h] and e = t and x ends with bar',
     'hostname=lotus-35vm13.lotus.hpdd.lab.intel.com': 'hostname = lotus-35vm13.lotus.hpdd.lab.intel.com'
