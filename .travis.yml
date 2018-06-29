@@ -1,13 +1,10 @@
 language: node_js
 node_js:
-- 6
-- 7
-cache: yarn
+- 10
 deploy:
   provider: npm
-  email: joe.grund@intel.com
-  api_key:
-    secure: RvY6nXL9Adb5qCsYc9Igz0S3+EF6nrmrq4iByRRpRQZB1UfYxwhnUJAAoawxxvEgoVfDL4yKYG+MrQgb7NtIY7fgZLyvvykmHbJXVJpbRqfBuA5JPgXXmt9Nlo3oD7kEHTxbfPiIxMJQWpsDAyMFfexXeQTQQDkATeMvbslp1VytMCFo+yyVsLXk3a1JTGmsMZR54OXHmkHltY0Bw5Y8W8o/N7aJIhquI/0L0JFtZKoqlapQTU/Rq5Wq7elPPsAaJGIt4ViIWAWKjl2DoFozggjniyjKyBvLBlEQwNjzYIlmAkzepS1llPgCHoZl1IeDwKy3fqXYGP9hS4W6Epuaj/tGrSWcKCfS0Ti2vOPJCbkHO3p4hsWKBzYpYcZwGVZCkjlrx4mi+IXgCGTkRss7vtFAnBgWZ2cB8XGYxL5sKbMA2de8x16UQGOeItg29O8VboLn2qab5edrgWptBl3rCmpc6Z1kQLUMdA9Uz/iHubkJ7ldYuzXdpVnhm0e/SeEj+I/Za8mRg384N6MlcMwCV1t3TqEvNQT9A+K5pOeUIIhtdLhKhHgaeEiFp+rskAw6zxcwqrkcLpGLQ+l8E82u9kyQM73URrKnO//tC/Bhfjvq4GYui7JG+fij+vmrIDRcmzxG8Q3HveaoMIvuWoD+SZbooanghGxRGQpDoDPXiVo=
+  email: "$NPM_EMAIL"
+  api_key: "$NPM_TOKEN"
   on:
     tags: true
-    repo: intel-hpdd/qs-parsers
+    repo: whamcloud/qs-parsers
