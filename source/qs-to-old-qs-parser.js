@@ -22,10 +22,7 @@ const inT: tokensToResult = token('__in');
 const sep: tokensToResult = token(',');
 const number: tokensToResult = token('number');
 
-export const orderBy: tokensToResult = parsely.parseStr([
-  token('order_by'),
-  equals
-]);
+export const orderBy: tokensToResult = parsely.parseStr([token('order_by'), equals]);
 
 export const gte: tokensToResult = parsely.parseStr([token('__gte'), equals]);
 export const lte: tokensToResult = parsely.parseStr([token('__lte'), equals]);
@@ -42,36 +39,18 @@ export const orderByParser = parsely.parseStr([
   parsely.choice([parsely.parseStr([token('-'), value]), value])
 ]);
 
-export const dateParser = parsely.parseStr([
-  value,
-  parsely.choice([gte, lte, gt, lt, equals]),
-  date
-]);
+export const dateParser = parsely.parseStr([value, parsely.choice([gte, lte, gt, lt, equals]), date]);
 
 export const and: tokensToResult = token('&');
-export const like: tokensToResult = parsely.parseStr([
-  value,
-  contains,
-  equals,
-  value
-]);
+export const like: tokensToResult = parsely.parseStr([value, contains, equals, value]);
 export const starts: tokensToResult = parsely.parseStr([
   value,
   startsWith,
   equals,
   parsely.many1(valueOrNumberOrDotOrDash)
 ]);
-export const ends: tokensToResult = parsely.parseStr([
-  value,
-  endsWith,
-  equals,
-  value
-]);
-export const assign: tokensToResult = parsely.parseStr([
-  value,
-  equals,
-  parsely.many1(valueOrNumberOrDotOrDash)
-]);
+export const ends: tokensToResult = parsely.parseStr([value, endsWith, equals, value]);
+export const assign: tokensToResult = parsely.parseStr([value, equals, parsely.many1(valueOrNumberOrDotOrDash)]);
 export const inListOutOld: tokensToResult = fp.flow(
   inList,
   parsely.onSuccess(output => {
@@ -82,15 +61,7 @@ export const inListOutOld: tokensToResult = fp.flow(
   })
 );
 
-const choices = parsely.choice([
-  like,
-  starts,
-  ends,
-  inListOutOld,
-  dateParser,
-  assign,
-  orderByParser
-]);
+const choices = parsely.choice([like, starts, ends, inListOutOld, dateParser, assign, orderByParser]);
 const expr = parsely.sepBy1(choices)(and);
 const emptyOrExpr = parsely.optional(expr);
 
