@@ -58,6 +58,14 @@ export const colon = parsely.tokenTo(':', ':');
 
 export const orderBy = parsely.tokenTo('order by', 'order_by=');
 
+export const utc = parsely.matchValueTo('utc', 'utc');
+
+export const UTC = parsely.matchValueTo('UTC', 'UTC');
+
+export const Z = parsely.matchValueTo('Z', 'Z');
+
+export const z = parsely.matchValueTo('z', 'z');
+
 export const desc: tokensToResult = parsely.matchValueTo('desc', '-');
 
 export const asc: tokensToResult = parsely.matchValueTo('asc', '');
@@ -90,6 +98,8 @@ export const mm = datePart(x => x.length == 2 && parseNum(x) >= 0 && x < 60, 'tw
 
 export const ss = datePart(x => x.length == 2 && x >= 0 && x < 60, 'two digit second between 00 and 59');
 
+export const utcFlag = parsely.choice([utc, UTC, z, Z]);
+
 export const date = parsely.parseStr([
   YYYY,
   dash,
@@ -103,7 +113,8 @@ export const date = parsely.parseStr([
   colon,
   mm,
   colon,
-  ss
+  ss,
+  utcFlag
 ]);
 
 export const dateParser = (v: tokensToResult) =>

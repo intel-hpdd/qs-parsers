@@ -79,6 +79,22 @@ export const qsToInputTokens = [
   {
     name: '=',
     pattern: /^=/
+  },
+  {
+    name: 'UTC',
+    pattern: /^UTC/
+  },
+  {
+    name: 'utc',
+    pattern: /^utc/
+  },
+  {
+    name: 'Z',
+    pattern: /^Z/
+  },
+  {
+    name: 'z',
+    pattern: /^z/
   }
 ];
 
@@ -155,5 +171,21 @@ export const inputToQsTokens = [
   {
     name: ',',
     pattern: /^,/
+  },
+  {
+    name: 'UTC',
+    pattern: /^UTC/
+  },
+  {
+    name: 'utc',
+    pattern: /^utc/
+  },
+  {
+    name: 'Z',
+    pattern: /^Z/
+  },
+  {
+    name: 'z',
+    pattern: /^z/
   }
 ];

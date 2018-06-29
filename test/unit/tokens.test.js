@@ -76,6 +76,22 @@ describe('tokens', () => {
       {
         name: '=',
         pattern: /^=/
+      },
+      {
+        name: 'UTC',
+        pattern: /^UTC/
+      },
+      {
+        name: 'utc',
+        pattern: /^utc/
+      },
+      {
+        name: 'Z',
+        pattern: /^Z/
+      },
+      {
+        name: 'z',
+        pattern: /^z/
       }
     ]);
   });
@@ -158,6 +174,22 @@ describe('tokens', () => {
       {
         name: ',',
         pattern: /^,/
+      },
+      {
+        name: 'UTC',
+        pattern: /^UTC/
+      },
+      {
+        name: 'utc',
+        pattern: /^utc/
+      },
+      {
+        name: 'Z',
+        pattern: /^Z/
+      },
+      {
+        name: 'z',
+        pattern: /^z/
       }
     ]);
   });
