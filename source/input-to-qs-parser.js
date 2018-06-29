@@ -79,32 +79,26 @@ export const MM = datePart(
   'two digit month between 1 and 12'
 );
 
-export const DD = datePart(
-  x => x.length == 2 && parseNum(x) > 0 && parseNum(x) < 32,
-  'two digit day between 1 and 31'
-);
+export const DD = datePart(x => x.length == 2 && parseNum(x) > 0 && parseNum(x) < 32, 'two digit day between 1 and 31');
 
 export const hh = datePart(
   x => x.length == 2 && parseNum(x) >= 0 && parseNum(x) < 24,
   'two digit hour between 1 and 23'
 );
 
-export const mm = datePart(
-  x => x.length == 2 && parseNum(x) >= 0 && x < 60,
-  'two digit minute between 00 and 59'
-);
+export const mm = datePart(x => x.length == 2 && parseNum(x) >= 0 && x < 60, 'two digit minute between 00 and 59');
 
-export const ss = datePart(
-  x => x.length == 2 && x >= 0 && x < 60,
-  'two digit second between 00 and 59'
-);
+export const ss = datePart(x => x.length == 2 && x >= 0 && x < 60, 'two digit second between 00 and 59');
 
 export const date = parsely.parseStr([
   YYYY,
   dash,
   MM,
   dash,
-  fp.flow(DD, parsely.onSuccess(x => x + ' ')),
+  fp.flow(
+    DD,
+    parsely.onSuccess(x => x + ' ')
+  ),
   hh,
   colon,
   mm,
@@ -123,23 +117,16 @@ export const limit: tokensToResult = parsely.matchValue('limit');
 
 export const limitParser = parsely.parseStr([limit, equals, number]);
 
-export const assign = (l: tokensToResult, r: tokensToResult): tokensToResult =>
-  parsely.parseStr([l, equals, r]);
+export const assign = (l: tokensToResult, r: tokensToResult): tokensToResult => parsely.parseStr([l, equals, r]);
 
-export const like = (l: tokensToResult, r: tokensToResult) =>
-  parsely.parseStr([l, contains, r]);
+export const like = (l: tokensToResult, r: tokensToResult) => parsely.parseStr([l, contains, r]);
 
-export const starts = (l: tokensToResult, r: tokensToResult) =>
-  parsely.parseStr([l, startsWith, r]);
+export const starts = (l: tokensToResult, r: tokensToResult) => parsely.parseStr([l, startsWith, r]);
 
-export const ends = (l: tokensToResult, r: tokensToResult) =>
-  parsely.parseStr([l, endsWith, r]);
+export const ends = (l: tokensToResult, r: tokensToResult) => parsely.parseStr([l, endsWith, r]);
 
-export const valueSep = (v: tokensToResult): tokensToResult =>
-  parsely.sepBy1(v)(sep);
+export const valueSep = (v: tokensToResult): tokensToResult => parsely.sepBy1(v)(sep);
 
-export const list = (v: tokensToResult): tokensToResult =>
-  parsely.parseStr([startList, valueSep(v), endList]);
+export const list = (v: tokensToResult): tokensToResult => parsely.parseStr([startList, valueSep(v), endList]);
 
-export const inList = (l: tokensToResult, r: tokensToResult): tokensToResult =>
-  parsely.parseStr([l, inToken, list(r)]);
+export const inList = (l: tokensToResult, r: tokensToResult): tokensToResult => parsely.parseStr([l, inToken, list(r)]);
