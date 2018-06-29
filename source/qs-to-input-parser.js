@@ -10,7 +10,7 @@ import * as parsely from '@iml/parsely';
 
 import type { tokensToResult } from '@iml/parsely';
 
-import { YYYY, MM, DD, hh, mm, ss, dash, colon } from './input-to-qs-parser.js';
+import { YYYY, MM, DD, hh, mm, ss, dash, colon, utcFlag } from './input-to-qs-parser.js';
 
 export { value, number, dot, dash } from './input-to-qs-parser.js';
 
@@ -48,7 +48,7 @@ export const inList = (l: tokensToResult, r: tokensToResult) => parsely.parseStr
 
 export const space: tokensToResult = parsely.tokenTo(' ', ' ');
 
-export const date = parsely.parseStr([YYYY, dash, MM, dash, DD, space, hh, colon, mm, colon, ss]);
+export const date = parsely.parseStr([YYYY, dash, MM, dash, DD, space, hh, colon, mm, colon, ss, utcFlag]);
 
 export const dateParser = (v: tokensToResult) =>
   parsely.parseStr([v, parsely.choice([gte, lte, gt, lt, equals]), date]);
