@@ -57,7 +57,7 @@ describe('the input to qs parser', () => {
     'a <= 2018-06-28 08:11:32UTC': 'a__lte=2018-06-28 08:11:32UTC',
     'a <= 2018-06-28 08:11:32utc': 'a__lte=2018-06-28 08:11:32UTC',
     'a <= 2018-06-28 08:11:32UTC and c=d': 'a__lte=2018-06-28 08:11:32UTC&c=d',
-    'hostname = lotus-35vm13.lotus.hpdd.lab.intel.com': 'hostname=lotus-35vm13.lotus.hpdd.lab.intel.com'
+    'hostname = lotus-35vm13.lotus.hpdd.lab.whamcloud.com': 'hostname=lotus-35vm13.lotus.hpdd.lab.whamcloud.com'
   };
 
   Object.keys(inputOutput).forEach(input => {

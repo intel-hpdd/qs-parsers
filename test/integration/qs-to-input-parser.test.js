@@ -63,7 +63,7 @@ describe('qs to input parser test', () => {
     'a__gte=2016-08-30%2019%3A44%3A31utc': 'a >= 2016-08-30 19:44:31UTC',
     'b__in=d&c=e&a__in=g&b__in=f%2Cg%2Ch&e=t&x__endswith=bar':
       'b in [d] and c = e and a in [g] and b in [f, g, h] and e = t and x ends with bar',
-    'hostname=lotus-35vm13.lotus.hpdd.lab.intel.com': 'hostname = lotus-35vm13.lotus.hpdd.lab.intel.com'
+    'hostname=lotus-35vm13.whamcloud.com': 'hostname = lotus-35vm13.whamcloud.com'
   };
 
   Object.keys(inputOutput).forEach(input => {

@@ -1,6 +1,6 @@
 {
   "name": "@iml/qs-parsers",
-  "version": "4.0.1",
+  "version": "4.1.0",
   "description": "A set of parsers useful for parsing input <-> qs",
   "main": "source/index.js",
   "scripts": {
@@ -19,8 +19,11 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:intel-hpdd/qs-parsers.git"
+    "url": "git@github.com:whamcloud/qs-parsers.git"
   },
+  "files": [
+    "source"
+  ],
   "jest": {
     "coveragePathIgnorePatterns": [
       "/node_modules/",

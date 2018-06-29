@@ -34,7 +34,7 @@ describe('qs to old qs parser', () => {
     'b__in=1&c=1': 'b__in=1&c=1',
     'b__in=1&c=1&a__in=2&b__in=3%2C4%2C5&e=4&x__endswith=bar':
       'b__in=1&c=1&a__in=2&b__in=3&b__in=4&b__in=5&e=4&x__endswith=bar',
-    'a=lotus-35vm13.lotus.hpdd.lab.intel.com': 'a=lotus-35vm13.lotus.hpdd.lab.intel.com'
+    'a=lotus-35vm13.whamcloud.com': 'a=lotus-35vm13.whamcloud.com'
   };
 
   Object.keys(inputOutput).forEach(input => {
