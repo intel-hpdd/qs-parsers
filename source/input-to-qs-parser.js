@@ -58,9 +58,9 @@ export const colon = parsely.tokenTo(':', ':');
 
 export const orderBy = parsely.tokenTo('order by', 'order_by=');
 
-export const utc = parsely.matchValueTo('utc', 'Z');
+export const utc = parsely.matchValueTo('utc', 'UTC');
 
-export const UTC = parsely.matchValueTo('UTC', 'Z');
+export const UTC = parsely.matchValueTo('UTC', 'UTC');
 
 export const desc: tokensToResult = parsely.matchValueTo('desc', '-');
 
